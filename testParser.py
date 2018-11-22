@@ -1,6 +1,4 @@
 import worldLocations
-# god I hate myself. @todo Undo this as soon as possible
-global myPosition
 
 
 class PlayerState:
@@ -10,11 +8,10 @@ class PlayerState:
 
 def player_move(player_state, direction):
 
-    # a test function to prove this works
     player_state.room = player_state.room.take_path(direction)
 
 
-parser_dict = {
+PARSER_DICT = {
     'go': player_move
 }
 
@@ -23,10 +20,8 @@ def text_parser(input_string, player):
     input_string = input_string.lower()
     verb = input_string.split(' ')[0]
     noun = input_string.partition(' ')[2]
-    if verb in parser_dict:
-        # parser_dict[verb](noun)
-        # @todo change this line to include a Player object
-        parser_dict[verb](player, noun)
+    if verb in PARSER_DICT:
+        PARSER_DICT[verb](player, noun)
 
     else:
         print("Uh oh! I don't recognize that word!")
@@ -34,7 +29,6 @@ def text_parser(input_string, player):
 
 
 if __name__ == "__main__":
-    global myPosition
 
     world_gen_matrix = [
         [['Place 1', 'The first place'], ['Place 2', 'The second place'], ['Place 3', 'The third place']],
