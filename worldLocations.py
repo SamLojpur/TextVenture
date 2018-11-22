@@ -1,11 +1,11 @@
 
 def generate_world(world_array):
     output_array = []
-    for i in world_array:
+    for y, i in enumerate(world_array):
         current_row = []
         output_array.append(current_row)
-        for j in i:
-            current_room = Room(*j)
+        for x, j in enumerate(i):
+            current_room = Room(*j, x, y)
             current_row.append(current_room)
 
     for i in range(len(output_array)):
@@ -18,18 +18,20 @@ def generate_world(world_array):
                 south_room = output_array[i+1][j]
                 current_room.add_path('south', south_room)
             if j - 1 >= 0:
-                east_room = output_array[i][j-1]
-                current_room.add_path('east', east_room)
-            if j + 1 < len(output_array[0]):
-                west_room = output_array[i][j+1]
+                west_room = output_array[i][j-1]
                 current_room.add_path('west', west_room)
+            if j + 1 < len(output_array[0]):
+                east_room = output_array[i][j+1]
+                current_room.add_path('east', east_room)
 
     return output_array
 
 
 class Room:
 
-    def __init__(self, name="Unknown Location", description_text="No Description"):
+    def __init__(self, name="Unknown Location", description_text="No Description", x=0, y=0):
+        self.x = x
+        self.y = y
         self.paths = {
         }
         self.description_text = description_text
