@@ -13,23 +13,23 @@ def generate_world(world_array):
             current_room = output_array[i][j]
             if i - 1 >= 0:
                 north_room = output_array[i-1][j]
-                current_room.add_path('North', north_room)
+                current_room.add_path('north', north_room)
             if i + 1 < len(output_array):
                 south_room = output_array[i+1][j]
-                current_room.add_path('South', south_room)
+                current_room.add_path('south', south_room)
             if j - 1 >= 0:
                 east_room = output_array[i][j-1]
-                current_room.add_path('East', east_room)
+                current_room.add_path('east', east_room)
             if j + 1 < len(output_array[0]):
                 west_room = output_array[i][j+1]
-                current_room.add_path('West', west_room)
+                current_room.add_path('west', west_room)
 
     return output_array
 
 
 class Room:
 
-    def __init__(self, name= "Unknown Location", description_text = "No Description"):
+    def __init__(self, name="Unknown Location", description_text="No Description"):
         self.paths = {
         }
         self.description_text = description_text
@@ -49,6 +49,7 @@ class Room:
         else:
             print("There is no path that way!")
             return self
+
 
 
 if __name__ == "__main__":

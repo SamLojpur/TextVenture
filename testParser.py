@@ -1,8 +1,11 @@
-
+import worldLocations
+# god I hate myself. @todo Undo this as soon as possible
+global myPosition
 
 def player_move(direction):
+    global myPosition
     # a test function to prove this works
-    print("I went " + direction)
+    myPosition = myPosition.take_path(direction)
 
 
 parser_dict = {
@@ -14,15 +17,38 @@ def text_parser(input_string):
     input_string = input_string.lower()
     verb = input_string.split(' ')[0]
     noun = input_string.partition(' ')[2]
+    if verb in parser_dict:
+        parser_dict[verb](noun)
+        # @todo change this line to include a Player object
+        # parser_dict[verb](player, noun)
 
-    parser_dict[verb](noun)
+    else:
+        print("Uh oh! I don't recognize that word!")
+        print("Type help for examples of words you can use")
 
-    return verb
+
 
 
 if __name__ == "__main__":
-    text_parser("Go South")
-    text_parser("Go East")
-    text_parser("Go West")
-    text_parser("GO north")
-    text_parser("go to yo momma's house")
+    global myPosition
+
+    world_gen_matrix = [
+        [['Place 1', 'The first place'], ['Place 2', 'The second place'], ['Place 3', 'The third place']],
+        [['Place 4', 'The fourth place'], ['Place 5', 'The fifth place'], ['Place 6', 'The sixth place']],
+        [['Place 7', 'The seventh place'], ['Place 8', 'The eighth place'], ['Place 9', 'The ninth place']],
+    ]
+
+    world_matrix = worldLocations.generate_world(world_gen_matrix)
+    print(world_matrix[1][1].name)
+
+    myPosition = world_matrix[1][1]
+
+    # text_parser("Go South")
+    # text_parser("Go East")
+    # text_parser("Go West")
+    # text_parser("GO north")
+    # text_parser("go to yo momma's house")
+
+    while True:
+        text_parser(input("Enter command "))
+
