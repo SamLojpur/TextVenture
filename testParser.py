@@ -1,15 +1,14 @@
 import worldLocations
 
-
 class PlayerState:
     def __init__(self, room):
         self.room = room
+        self.text = ""
 
 
 def player_move(player_state, direction):
-
     player_state.room = player_state.room.take_path(direction)
-
+    text = player_state.room.get_text()
 
 PARSER_DICT = {
     'go': player_move
