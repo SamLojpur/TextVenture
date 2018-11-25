@@ -1,14 +1,22 @@
 import worldLocations
 
+
 class PlayerState:
     def __init__(self, room):
         self.room = room
         self.text = ""
 
 
-def player_move(player_state, direction):
-    player_state.room = player_state.room.take_path(direction)
-    text = player_state.room.get_text()
+def player_move(_player_state, direction):
+    current_room = _player_state.room
+    _player_state.room = _player_state.room.take_path(direction)
+    if _player_state.room.name == current_room.name:
+        text = "There is no path that way!"
+    else:
+        text = "Now entering " + _player_state.room.get_name()
+
+    return text
+
 
 PARSER_DICT = {
     'go': player_move
@@ -20,11 +28,12 @@ def text_parser(input_string, player):
     verb = input_string.split(' ')[0]
     noun = input_string.partition(' ')[2]
     if verb in PARSER_DICT:
-        PARSER_DICT[verb](player, noun)
+        output = PARSER_DICT[verb](player, noun)
 
     else:
-        print("Uh oh! I don't recognize that word!")
-        print("Type help for examples of words you can use")
+        output = """Unknown verb. Try 'help'"""
+
+    return output
 
 
 if __name__ == "__main__":

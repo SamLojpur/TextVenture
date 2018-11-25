@@ -39,34 +39,34 @@ while running:
     x = player_state.room.x
     y = player_state.room.y
     
-    #print(x)
-    #print(y)
+    # print(x)
+    # print(y)
     gameDisplay.fill((0, 0, 0))
     gameDisplay.blit(my_image, [0, 0], [640*x, 640*y, 640, 640])
     
     gameDisplay.blit(promptLabel, (0, 650))
-    gameDisplay.blit(commandLabel, (0 , 750))
-    
-    
+    gameDisplay.blit(commandLabel, (0, 750))
+
     events = pygame.event.get()
     for event in pygame.event.get():
             # check for closing window
             if event.type == pygame.QUIT:
                 running = False   
 
-    text = ""
+    input_text = ""
+    output_text = ""
     if textinput.update(events):
-        text = textinput.get_text() 
+        input_text = textinput.get_text()
         textinput.clear_text()
-        testParser.text_parser(text, player_state)
-        
+        output_text = testParser.text_parser(input_text, player_state)
+        print("output text: " + output_text)
+
+        commandLabel = labelFont.render(output_text, False, (255, 255, 255))
+
     gameDisplay.blit(textinput.get_surface(), (0, 695))
             
     pygame.display.update()
-    
-    #if player_state.room.get_text() != "":
-    commandLabel = labelFont.render(player_state.room.text, False, (255, 255, 255))
-           #print(player_state.room.get_text())
-    gameDisplay.blit(commandLabel, (0, 750))    
-    
-        
+    # if player_state.room.get_text() != "":
+    # print(player_state.room.get_text())
+    gameDisplay.blit(commandLabel, (0, 750))
+

@@ -43,24 +43,19 @@ class Room:
                 self.paths[direction] = room
             else:
                 pass
-                print (type(room))
+                print(type(room))
 
     def take_path(self, direction):
         if direction in self.paths:
-            self.text = "Now entering " + self.paths[direction].name
-            #print(self.text)
             print("Now entering " + self.paths[direction].name)
-            #print(self.paths[direction].description_text)
             return self.paths[direction]
         else:
-            self.text = "There is no path that way!"
             print("There is no path that way!")
             return self
         
-    def get_text(self):
-        print("HI", self.text)
-        return self.text
-
+    def get_name(self):
+        print("HI", self.name)
+        return self.name
 
 
 if __name__ == "__main__":
