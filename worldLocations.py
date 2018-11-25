@@ -36,21 +36,30 @@ class Room:
         }
         self.description_text = description_text
         self.name = name
+        self.text = ""
 
     def add_path(self, direction, room):
             if isinstance(room, Room):
                 self.paths[direction] = room
             else:
+                pass
                 print (type(room))
 
     def take_path(self, direction):
         if direction in self.paths:
+            self.text = "Now entering " + self.paths[direction].name
+            #print(self.text)
             print("Now entering " + self.paths[direction].name)
-            print(self.paths[direction].description_text)
+            #print(self.paths[direction].description_text)
             return self.paths[direction]
         else:
+            self.text = "There is no path that way!"
             print("There is no path that way!")
             return self
+        
+    def get_text(self):
+        print("HI", self.text)
+        return self.text
 
 
 
