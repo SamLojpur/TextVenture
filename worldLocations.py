@@ -27,6 +27,8 @@ def generate_world(world_array):
     return output_array
 
 
+
+
 class Room:
 
     def __init__(self, name="Unknown Location", description_text="No Description", x=0, y=0):
@@ -37,7 +39,7 @@ class Room:
         self.description_text = description_text
         self.name = name
         self.text = ""
-
+    # @todo removepathto(room we could go to)
     def add_path(self, direction, room):
             if isinstance(room, Room):
                 self.paths[direction] = room
@@ -56,6 +58,10 @@ class Room:
     def get_name(self):
         print("HI", self.name)
         return self.name
+
+    def render_room(self, sprite):
+        pass
+    # @todo render the sprites for the room here
 
 
 if __name__ == "__main__":

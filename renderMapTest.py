@@ -3,6 +3,9 @@ import worldLocations
 import testParser
 import textInput
 
+# @todo add constants
+# @todo get pycharm KATE
+
 # pygame.init()
 clock = pygame.time.Clock()
 
@@ -34,6 +37,9 @@ commandLabel = labelFont.render('', False, (255, 255, 255))
 
 running = True
 while running:
+    # @todo move stuff to separate function for textbox
+    # @todo make textbox multiline
+
     pygame.event.get()
 
     x = player_state.room.x
