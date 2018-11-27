@@ -1,13 +1,17 @@
 """
 
-Copyright 2017, Silas Gyger, silasgyger@gmail.com, All rights reserved.
-Borrowed from https://github.com/Nearoo/pygame-text-input under the MIT license.
+Class TextInput and functions update, get_surface, get_text, clear_text were
+Borrowed from https://github.com/Nearoo/pygame-text-input 
+By Silas Gyger, silasgyger@gmail.com
+
 
 Modified and commented by Kate Vlaar
+Remaining functions are original
 
 """
 
 import pygame
+import testParser
 import pygame.locals as pl
 
 pygame.font.init()
@@ -156,3 +160,38 @@ class TextInput:
     def clear_text(self):
         self.input_string = ""
         self.cursor_position = 0
+        
+    
+    def get_lines(self, text, lines):
+        if len(text) > 27:
+            words = text.split(" ")
+            chars = 0
+            i = 0
+            newWords = ""
+            while chars < 27 and i < len(words):
+                chars += len(words[i])
+                i += 1
+            for x in range(0, i - 2):
+                newWords += words[x]
+                newWords += " "
+            lines.append(newWords)
+            remainingWords = ""
+            for j in range(i - 2, len(words)):
+                remainingWords += words[j]
+                remainingWords += " " 
+            self.get_lines(remainingWords, lines)
+        else:
+            lines.append(text)
+        return lines
+    
+    
+    def print_lines(self, text):
+        lines = self.get_lines(text, [])
+        if len(lines) == 2:
+            return lines
+        elif len(lines) == 1:
+            lines.append("")
+            return lines
+        
+            
+        

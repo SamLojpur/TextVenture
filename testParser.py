@@ -5,15 +5,17 @@ class PlayerState:
     def __init__(self, room):
         self.room = room
         self.text = ""
+        self.first_command = False
 
 
 def player_move(_player_state, direction):
+    _player_state.first_command = True
     current_room = _player_state.room
     _player_state.room = _player_state.room.take_path(direction)
     if _player_state.room.name == current_room.name:
         text = "There is no path that way!"
     else:
-        text = "Now entering " + _player_state.room.get_name()
+        text = "Now entering " + _player_state.room.get_name() + " " + _player_state.room.get_description()
 
     return text
 
@@ -34,6 +36,13 @@ def text_parser(input_string, player):
         output = """Unknown verb. Try 'help'"""
 
     return output
+
+def prompt_label(_player_state):
+    if _player_state.first_command:
+        prompt_label_text = "$: "
+    else:
+        prompt_label_text = "Enter a command:  "
+    return prompt_label_text
 
 
 if __name__ == "__main__":
