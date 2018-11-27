@@ -7,12 +7,21 @@ class PlayerState:
         self.room = room
         self.text = ""
         self.first_command = True
+        self.acrossRiver = False
+        self.hasSlingshot = False
+        self.swordFell = False
+        self.hasSword = False
+
+    def get_room(self):
+        return self.room.x, self.room.y
 
 
 def player_cast(_player_state, direction):
-    if _player_state.room.x == 2 and _player_state.room.y == 0:
+    if _player_state.get_room() == (2, 0):
         return "Woah! The magic of " + MAGIC_SPELL + " let you jump over the river!"
+
     else:
+        _player_state.acrossRiver = not _player_state.acrossRiver
         return "Woah! The magic of " + MAGIC_SPELL + " let you jump!"
 
 
@@ -28,17 +37,42 @@ def player_move(_player_state, direction):
     return text
 
 
-def player_talk (_player_state, words):
+def player_talk(_player_state, target):
+    if _player_state.get_room() == (0, 1):
+        return "The old man has a quest for you!"
+    if _player_state.get_room() == (1, 2):
+        return "The bunny can't talk. It is very cute though."
+
+
+def player_get(_player_state, item):
+    if _player_state.get_room() == (2, 2):
+        if item == "slingshot":
+            _player_state.hasSlingshot = True
+            return "You took the slingshot! Now you can shoot things!"
+        else:
+            return "There's no " + item + " here."
+    elif _player_state.get_room() == (0, 2):
+        if item == "sword" and _player_state.swordFell:
+            _player_state.hasSword = True
+            return "You took the sword! Now you can attack things!"
+    return "there's nothing here to take!"
+
     pass
 
 
-def player_get (_player_state, item):
-    pass
+def player_use (_player_state, arg):
+    x , y = arg.split(' on ')
+    if x == "slingshot":
+        if y == "sword" and _player_state.get_room() == (0, 2):
+            _player_state.swordFell = True
+            return "The you fire the slingshot and the sword clatters to your feet"
+        elif y == "bunny" and _player_state.get_room() == (1, 2):
+            return "The bunny gets hit and scampers off. You monster."
 
+        elif y == "wizard" and _player_state.get_room() == (0, 1):
+            return "The man gets hit and scampers off. You monster."
 
-def player_use (_player_state, item):
-    pass
-
+    return "that's not a valid item to use"
 
 def player_pet (_player_state, noun):
     pass
@@ -48,10 +82,13 @@ def player_shoot (_player_state, words):
     pass
 
 
+def player_help(_player_state, argument):
+    return "Here are the words we have so far!: go, talk, cast"
+
 PARSER_DICT = {
     'go'    : player_move,
     'talk'  : player_talk,
-    'grab'  : player_get,
+    'take'  : player_get,
     'use'   : player_use,
     'pet'   : player_pet,
     'shoot ': player_shoot,

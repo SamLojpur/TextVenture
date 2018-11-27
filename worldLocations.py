@@ -62,7 +62,7 @@ class Room:
         self.description_text = description_text
         self.name = name
         self.text = ""
-    # @todo removepathto(room we could go to)
+
     def add_path(self, direction, room):
             if isinstance(room, Room):
                 self.paths[direction] = room
@@ -83,7 +83,6 @@ class Room:
             return self
         
     def get_name(self):
-        #print("HI", self.name)
         return self.name
     
     def get_description(self):
