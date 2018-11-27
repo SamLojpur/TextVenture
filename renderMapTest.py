@@ -32,7 +32,7 @@ textinput = textInput.TextInput("", "pixelFont.ttf", 35, True, (255, 255, 255), 
 
 pygame.font.init()
 labelFont = pygame.font.Font("pixelFont.ttf", 35)
-promptLabel = labelFont.render('Enter a command: ', False, (255, 255, 255))
+# promptLabel = labelFont.render(testParser.get_prompt_label(player_state), False, (255, 255, 255))
 outputLabel1 = labelFont.render('', False, (255, 255, 255))
 outputLabel2 = labelFont.render('', False, (255, 255, 255))
 
@@ -51,14 +51,14 @@ while running:
     gameDisplay.fill((0, 0, 0))
     gameDisplay.blit(my_image, [0, 0], [640*x, 640*y, 640, 640])
     
-    promptLabel = labelFont.render(testParser.prompt_label(player_state), False, (255, 255, 255))
+    promptLabel = labelFont.render(testParser.get_prompt_label(player_state), False, (255, 255, 255))
         
     gameDisplay.blit(promptLabel, (0, 650))
     gameDisplay.blit(outputLabel1, (0, 690))
     gameDisplay.blit(outputLabel2, (0, 730))
     
     # Small bug here, after entering first command, input flashes before disappearing 
-    gameDisplay.blit(textinput.get_surface(), (len(testParser.prompt_label(player_state)) * 21, 650))    
+    gameDisplay.blit(textinput.get_surface(), (len(testParser.get_prompt_label(player_state)) * 21, 650))
     
 
     events = pygame.event.get()
@@ -67,7 +67,7 @@ while running:
             if event.type == pygame.QUIT:
                 running = False   
 
-    
+
     input_text = ""
     output_text = ""
     if textinput.update(events):

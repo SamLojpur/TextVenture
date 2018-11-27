@@ -3,13 +3,21 @@ import worldLocations
 
 class PlayerState:
     def __init__(self, room):
+        self.magicSpell = "finances"
         self.room = room
         self.text = ""
-        self.first_command = False
+        self.first_command = True
+
+
+def player_cast(_player_state, direction):
+    if _player_state.room.x == 2 and player_state.room.y == 0:
+        return "Woah! The magic of " + _player_state.magicSpell + " let you jump over the river!"
+    else:
+        return "Woah! The magic of " + _player_state.magicSpell + " let you jump!"
 
 
 def player_move(_player_state, direction):
-    _player_state.first_command = True
+
     current_room = _player_state.room
     _player_state.room = _player_state.room.take_path(direction)
     if _player_state.room.name == current_room.name:
@@ -20,8 +28,35 @@ def player_move(_player_state, direction):
     return text
 
 
+def player_talk (_player_state, words):
+    pass
+
+
+def player_get (_player_state, item):
+    pass
+
+
+def player_use (_player_state, item):
+    pass
+
+
+def player_pet (_player_state, noun):
+    pass
+
+
+def player_shoot (_player_state, words):
+    pass
+
+
 PARSER_DICT = {
-    'go': player_move
+    'go'    : player_move,
+    'talk'  : player_talk,
+    'grab'  : player_get,
+    'use'   : player_use,
+    'pet'   : player_pet,
+    'shoot ': player_shoot,
+
+
 }
 
 
@@ -35,22 +70,25 @@ def text_parser(input_string, player):
     else:
         output = """Unknown verb. Try 'help'"""
 
+    player.first_command = False
+
     return output
 
-def prompt_label(_player_state):
+
+def get_prompt_label(_player_state):
     if _player_state.first_command:
-        prompt_label_text = "$: "
-    else:
         prompt_label_text = "Enter a command:  "
+    else:
+        prompt_label_text = "$: "
     return prompt_label_text
 
 
 if __name__ == "__main__":
 
     world_gen_matrix = [
-        [['Place 1', 'The first place'], ['Place 2', 'The second place'], ['Place 3', 'The third place']],
-        [['Place 4', 'The fourth place'], ['Place 5', 'The fifth place'], ['Place 6', 'The sixth place']],
-        [['Place 7', 'The seventh place'], ['Place 8', 'The eighth place'], ['Place 9', 'The ninth place']],
+        [['the Cliffs', 'The first place'], ['the Castle', 'The second place'], ['the River', 'The third place']],
+        [['the Lone Cabin', 'The fourth place'], ['the Plains', 'The fifth place'], ['the Path', 'The sixth place']],
+        [['the Grove', 'The seventh place'], ['the Forest', 'The eighth place'], ['the Forest (east)', 'The ninth place']],
     ]
 
     world_matrix = worldLocations.generate_world(world_gen_matrix)
