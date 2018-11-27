@@ -1,19 +1,19 @@
 import worldLocations
+MAGIC_SPELL = "cast"
 
 
 class PlayerState:
     def __init__(self, room):
-        self.magicSpell = "finances"
         self.room = room
         self.text = ""
         self.first_command = True
 
 
 def player_cast(_player_state, direction):
-    if _player_state.room.x == 2 and player_state.room.y == 0:
-        return "Woah! The magic of " + _player_state.magicSpell + " let you jump over the river!"
+    if _player_state.room.x == 2 and _player_state.room.y == 0:
+        return "Woah! The magic of " + MAGIC_SPELL + " let you jump over the river!"
     else:
-        return "Woah! The magic of " + _player_state.magicSpell + " let you jump!"
+        return "Woah! The magic of " + MAGIC_SPELL + " let you jump!"
 
 
 def player_move(_player_state, direction):
@@ -55,6 +55,7 @@ PARSER_DICT = {
     'use'   : player_use,
     'pet'   : player_pet,
     'shoot ': player_shoot,
+    MAGIC_SPELL: player_cast,
 
 
 }
@@ -91,7 +92,7 @@ if __name__ == "__main__":
         [['the Grove', 'The seventh place'], ['the Forest', 'The eighth place'], ['the Forest (east)', 'The ninth place']],
     ]
 
-    world_matrix = worldLocations.generate_world(world_gen_matrix)
+    world_matrix = worldLocations.worldgen_from_matrix(world_gen_matrix)
     print(world_matrix[1][1].name)
 
     myPosition = world_matrix[1][1]

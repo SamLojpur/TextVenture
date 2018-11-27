@@ -16,17 +16,7 @@ my_image = pygame.image.load("images/map.PNG")
 
 surf = pygame.Surface([1920, 1920])
 
-world_gen_matrix = [
-    [['Place 1', 'The first place'], ['Place 2', 'The second place'], ['Place 3', 'The third place']],
-    [['Place 4', 'The fourth place'], ['Place 5', 'The fifth place'], ['Place 6', 'The sixth place']],
-    [['Place 7', 'The seventh place'], ['Place 8', 'The eighth place'], ['Place 9', 'The ninth place']],
-]
-
-world_matrix = worldLocations.generate_world(world_gen_matrix)
-print(world_matrix[1][1].name)
-
-myPosition = world_matrix[1][1]
-player_state = testParser.PlayerState(myPosition)
+player_state = worldLocations.generate_world()
 
 textinput = textInput.TextInput("", "pixelFont.ttf", 35, True, (255, 255, 255), 10, 10)
 

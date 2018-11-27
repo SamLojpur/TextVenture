@@ -1,5 +1,28 @@
+import testParser
 
-def generate_world(world_array):
+def generate_world():
+    world_gen_matrix = [
+        [['Place 1', 'The first place'], ['Place 2', 'The second place'], ['Place 3', 'The third place']],
+        [['Place 4', 'The fourth place'], ['Place 5', 'The fifth place'], ['Place 6', 'The sixth place']],
+        [['Place 7', 'The seventh place'], ['Place 8', 'The eighth place'], ['Place 9', 'The ninth place']],
+    ]
+
+    world = worldgen_from_matrix(world_gen_matrix)
+    world[0][0].remove_path_to(world[0][1])
+    world[0][1].remove_path_to(world[0][0])
+
+    world[0][2].remove_path_to(world[0][1])
+    world[0][1].remove_path_to(world[0][2])
+
+    print(world[1][1].name)
+
+    myPosition = world[1][1]
+
+    player_state = testParser.PlayerState(myPosition)
+    return player_state
+
+
+def worldgen_from_matrix(world_array):
     output_array = []
     for y, i in enumerate(world_array):
         current_row = []
@@ -47,6 +70,10 @@ class Room:
                 pass
                 print(type(room))
 
+    def remove_path_to(self, room):
+
+        self.paths = {k: v for k, v in self.paths.items() if v != room}
+
     def take_path(self, direction):
         if direction in self.paths:
             print("Now entering " + self.paths[direction].name + self.paths[direction].description_text)
@@ -76,7 +103,7 @@ if __name__ == "__main__":
         [['Place 7', 'The seventh place'], ['Place 8', 'The eighth place'], ['Place 9', 'The ninth place']],
     ]
 
-    world_matrix = generate_world(world_gen_matrix)
+    world_matrix = worldgen_from_matrix(world_gen_matrix)
     print(world_matrix[1][1].name)
 
     myPosition = world_matrix[1][1]
