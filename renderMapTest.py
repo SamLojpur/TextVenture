@@ -18,7 +18,7 @@ surf = pygame.Surface([1920, 1920])
 
 player_state = worldLocations.generate_world()
 
-textinput = textInput.TextInput("", "pixelFont.ttf", 35, True, (255, 255, 255), 10, 10)
+textinput = textInput.TextInput("", "pixelFont.ttf", 35, True, (255, 255, 255), 0, 0)
 
 pygame.font.init()
 labelFont = pygame.font.Font("pixelFont.ttf", 35)
