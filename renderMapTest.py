@@ -59,7 +59,7 @@ while running:
 
 
     input_text = ""
-    output_text = ""
+    output_text = " "
     if textinput.update(events):
         input_text = textinput.get_text()
         textinput.clear_text()
@@ -70,7 +70,13 @@ while running:
             outputLabel1 = labelFont.render(output_lines[0], False, (255, 255, 255))
             outputLabel2 = labelFont.render(output_lines[1], False, (255, 255, 255))
         
+        
+    sprites = player_state.room.render_room()
+    sprites.update()
+    sprites.draw(gameDisplay)        
+
     pygame.display.update()
+    
     
     # if player_state.room.get_text() != "":
     # print(player_state.room.get_text())

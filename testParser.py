@@ -42,6 +42,8 @@ def player_talk(_player_state, target):
         return "The old man has a quest for you!"
     if _player_state.get_room() == (1, 2):
         return "The bunny can't talk. It is very cute though."
+    else:
+        return "There is no one to talk to here."
 
 
 def player_get(_player_state, item):

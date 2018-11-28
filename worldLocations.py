@@ -1,4 +1,6 @@
 import testParser
+import pygame
+import sprites
 
 def generate_world():
     world_gen_matrix = [
@@ -71,7 +73,6 @@ class Room:
                 print(type(room))
 
     def remove_path_to(self, room):
-
         self.paths = {k: v for k, v in self.paths.items() if v != room}
 
     def take_path(self, direction):
@@ -86,11 +87,17 @@ class Room:
         return self.name
     
     def get_description(self):
-            #print("HI", self.name)
-            return self.description_text   
+        return self.description_text   
 
-    def render_room(self, sprite):
-        pass
+    def render_room(self):
+        all_sprites = pygame.sprite.Group()
+        # Room 4:
+        if self.x == 0 and self.y == 1:
+            sprite = sprites.Bunny()
+            all_sprites.add(sprite)
+            
+        return all_sprites
+            
     # @todo render the sprites for the room here
 
 
