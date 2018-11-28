@@ -18,7 +18,7 @@ surf = pygame.Surface([1920, 1920])
 
 player_state = worldLocations.generate_world()
 
-textinput = textInput.TextInput("", "pixelFont.ttf", 35, True, (255, 255, 255), 400, 35)
+textinput = textInput.TextInput("", "pixelFont.ttf", 35, True, (255, 255, 255), 400, 400)
 
 pygame.font.init()
 labelFont = pygame.font.Font("pixelFont.ttf", 35)
@@ -51,11 +51,12 @@ while running:
     gameDisplay.blit(textinput.get_surface(), (len(testParser.get_prompt_label(player_state)) * 21, 650))
     
 
+    # Process exit event
     events = pygame.event.get()
     for event in pygame.event.get():
-            # check for closing window
-            if event.type == pygame.QUIT:
-                running = False   
+        # check for closing window
+        if event.type == pygame.QUIT:
+            running = False   
 
 
     input_text = ""
@@ -82,3 +83,5 @@ while running:
     # print(player_state.room.get_text())
     #gameDisplay.blit(commandLabel, (0, 750))
 
+pygame.display.quit() 
+pygame.quit()

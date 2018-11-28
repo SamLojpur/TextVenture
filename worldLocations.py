@@ -91,14 +91,32 @@ class Room:
 
     def render_room(self):
         all_sprites = pygame.sprite.Group()
-        player_sprite = sprites.Player()
-        all_sprites.add(player_sprite)
-        # Room 4:
+        #player_sprite = sprites.Player(200, 200)
+        #all_sprites.add(player_sprite)
+        # Room 8:
         if self.x == 1 and self.y == 2:
+            player_sprite = sprites.Player(200, 125)
             bunny_sprite = sprites.Bunny()
             all_sprites.add(bunny_sprite)
+        # Room 4:
+        elif self.x == 0 and self.y == 1:
+            player_sprite = sprites.Player(200, 200)            
+            oldMan_sprite = sprites.OldMan()
+            all_sprites.add(oldMan_sprite)
             
+        # Room 1:
+        elif self.x == 0 and self.y == 0:
+            player_sprite = sprites.Player(300, 350)            
+            sword_sprite = sprites.Sword()
+            all_sprites.add(sword_sprite)
+            
+        else:
+            player_sprite = sprites.Player(200, 200)
+            
+        
+        all_sprites.add(player_sprite)
         return all_sprites
+
             
     # @todo render the sprites for the room here
 
