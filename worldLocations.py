@@ -89,29 +89,51 @@ class Room:
     def get_description(self):
         return self.description_text   
 
-    def render_room(self):
+    def render_room(self, player):
         all_sprites = pygame.sprite.Group()
         #player_sprite = sprites.Player(200, 200)
         #all_sprites.add(player_sprite)
-        # Room 8:
-        if self.x == 1 and self.y == 2:
-            player_sprite = sprites.Player(200, 125)
-            bunny_sprite = sprites.Bunny()
-            all_sprites.add(bunny_sprite)
+
+        # Room 1:
+        if self.x == 0 and self.y == 0:
+            player_sprite = sprites.Player(300, 350)            
+            sword_sprite = sprites.Sword()
+            all_sprites.add(sword_sprite)
+        # Room 2:
+        elif self.x == 1 and self.y == 0:
+            player_sprite = sprites.Player(200, 400)
+            if player.killedBoss == False:
+                boss_sprite = sprites.Boss()
+                all_sprites.add(boss_sprite)
+        # Room 3:
+        elif self.x == 2 and self.y == 0:
+            player_sprite = sprites.Player(200, 400)
         # Room 4:
         elif self.x == 0 and self.y == 1:
             player_sprite = sprites.Player(200, 200)            
             oldMan_sprite = sprites.OldMan()
             all_sprites.add(oldMan_sprite)
+        # Room 6:
+        elif self.x == 2 and self.y == 1:
+            player_sprite = sprites.Player(220, 180)
+        # Room 7:
+        elif self.x == 0 and self.y == 2:
+            player_sprite = sprites.Player(300, 100)         
+        # Room 8:
+        elif self.x == 1 and self.y == 2:
+            player_sprite = sprites.Player(200, 125)
+            bunny_sprite = sprites.Bunny()
+            all_sprites.add(bunny_sprite)
+        # Room 9:
+        elif self.x == 2 and self.y == 2:
+            player_sprite = sprites.Player(200, 100)          
+
+        
             
-        # Room 1:
-        elif self.x == 0 and self.y == 0:
-            player_sprite = sprites.Player(300, 350)            
-            sword_sprite = sprites.Sword()
-            all_sprites.add(sword_sprite)
             
         else:
             player_sprite = sprites.Player(200, 200)
+            
             
         
         all_sprites.add(player_sprite)
@@ -119,7 +141,6 @@ class Room:
 
             
     # @todo render the sprites for the room here
-
 
 if __name__ == "__main__":
 

@@ -187,9 +187,10 @@ class TextInput:
     
     def print_lines(self, text):
         lines = self.get_lines(text, [])
-        if len(lines) == 2:
+        #if len(lines) == 2:
+        if len(lines) % 2 == 0:
             return lines
-        elif len(lines) == 1:
+        else:
             lines.append("")
             return lines
         

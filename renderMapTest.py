@@ -3,22 +3,30 @@ import worldLocations
 import testParser
 import textInput
 
+HEIGHT = 790
+IMG_SIZE = 1920
+WIDTH = 640
+
 # @todo add constants
 # @todo get pycharm KATE
 
 # pygame.init()
 clock = pygame.time.Clock()
 
-gameDisplay = pygame.display.set_mode((640, 790))
+gameDisplay = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('World')
 
-my_image = pygame.image.load("images/map.PNG")
+my_image = pygame.image.load("images/map.PNG").convert()
+gameDisplay.set_alpha(255)    
 
-surf = pygame.Surface([1920, 1920])
+
+surf = pygame.Surface([IMG_SIZE, IMG_SIZE])
 
 player_state = worldLocations.generate_world()
 
 textinput = textInput.TextInput("", "pixelFont.ttf", 35, True, (255, 255, 255), 400, 400)
+
+
 
 pygame.font.init()
 labelFont = pygame.font.Font("pixelFont.ttf", 35)
@@ -26,12 +34,24 @@ labelFont = pygame.font.Font("pixelFont.ttf", 35)
 outputLabel1 = labelFont.render('', False, (255, 255, 255))
 outputLabel2 = labelFont.render('', False, (255, 255, 255))
 
+
+"""
+x = textinput.print_lines("The bunny can't talk. It is very cute though. I need to fill another line")
+if x != None:
+    for i in range(0, len(x)):
+        print(x[i])
+        """
+
+
+c = 0
+    
+
 running = True
 while running:
     # @todo move stuff to separate function for textbox
     # @todo make textbox multiline
 
-    pygame.event.get()
+    #pygame.event.get()
 
     x = player_state.room.x
     y = player_state.room.y
@@ -39,13 +59,14 @@ while running:
     # print(x)
     # print(y)
     gameDisplay.fill((0, 0, 0))
-    gameDisplay.blit(my_image, [0, 0], [640*x, 640*y, 640, 640])
+    my_image.set_alpha(255)
+    gameDisplay.blit(my_image, [0, 0], [WIDTH*x, WIDTH*y, WIDTH, WIDTH])
     
     promptLabel = labelFont.render(testParser.get_prompt_label(player_state), False, (255, 255, 255))
         
     gameDisplay.blit(promptLabel, (0, 650))
     gameDisplay.blit(outputLabel1, (0, 690))
-    gameDisplay.blit(outputLabel2, (0, 730))
+    gameDisplay.blit(outputLabel2, (0, 730))    
     
     # Small bug here, after entering first command, input flashes before disappearing 
     gameDisplay.blit(textinput.get_surface(), (len(testParser.get_prompt_label(player_state)) * 21, 650))
@@ -56,10 +77,10 @@ while running:
     for event in pygame.event.get():
         # check for closing window
         if event.type == pygame.QUIT:
-            running = False   
+            running = False
 
 
-    input_text = ""
+    input_text = " "
     output_text = " "
     if textinput.update(events):
         input_text = textinput.get_text()
@@ -67,12 +88,42 @@ while running:
         output_text = testParser.text_parser(input_text, player_state)
         output_lines = textinput.print_lines(output_text)
         print("output text: " + output_text)
+
         if output_lines != None:
-            outputLabel1 = labelFont.render(output_lines[0], False, (255, 255, 255))
-            outputLabel2 = labelFont.render(output_lines[1], False, (255, 255, 255))
+            i = 0
+            f = True
+            while i < len(output_lines)-1:
+                pygame.draw.rect(gameDisplay, (0, 0, 0), [0, 640, 640, 790])
+                print("output text1: " + output_lines[i])
+                outputLabel1 = labelFont.render(output_lines[i], False, (255, 255, 255))
+                print("output text2: " + output_lines[i+1])
+                outputLabel2 = labelFont.render(output_lines[i + 1], False, (255, 255, 255))
+    
+                gameDisplay.blit(outputLabel1, (0, 690))
+                gameDisplay.blit(outputLabel2, (0, 730)) 
+
+                #pygame.display.update(outputLabel1)
+                pygame.time.delay(2000)
+                """
+                if i > 1:
+                    while True:
+                        e = pygame.event.wait()
+                        if e.type == pygame.KEYDOWN:
+                            if f:
+                                pass
+                                #break
+                            else:
+                                f = False
+                        
+                  """          
+                i+= 1
+                
+
+                
+                pygame.display.update()
         
         
-    sprites = player_state.room.render_room()
+    sprites = player_state.room.render_room(player_state)
     sprites.update()
     sprites.draw(gameDisplay)        
 
