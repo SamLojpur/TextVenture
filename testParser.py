@@ -1,23 +1,11 @@
 import worldLocations
+import gameUpdate
+import sprites
 MAGIC_SPELL = "cast"
 
 
-class PlayerState:
-    def __init__(self, room):
-        self.room = room
-        self.text = ""
-        self.first_command = True
-        self.acrossRiver = False
-        self.hasSlingshot = False
-        self.swordFell = False
-        self.hasSword = False
-        self.killedBoss = False
 
-    def get_room(self):
-        return self.room.x, self.room.y
-
-
-def player_cast(_player_state, direction):
+def player_cast(_player_state, _):
     if _player_state.get_room() == (2, 0):
         return "Woah! The magic of " + MAGIC_SPELL + " let you jump over the river!"
 
@@ -32,15 +20,17 @@ def player_move(_player_state, direction):
     _player_state.room = _player_state.room.take_path(direction)
     if _player_state.room.name == current_room.name:
         text = "There is no path that way!"
+    elif _player_state.acrossRiver:
+        return "You need to find a way across the river first!"
     else:
-        text = "Now entering " + _player_state.room.get_name() + " " + _player_state.room.get_description()
+        text = "Now entering " + _player_state.room.get_name() + "\n" + _player_state.room.get_description()
 
     return text
 
 
 def player_talk(_player_state, target):
     if _player_state.get_room() == (0, 1):
-        return "The old man has a quest for you!"
+        return "\"Oh if only I could get my treasure from the north. It's guarded by a troll though :(\""
     if _player_state.get_room() == (1, 2):
         return "The bunny can't talk. It is very cute though. I need to fill another line"
     else:
@@ -48,45 +38,62 @@ def player_talk(_player_state, target):
 
 
 def player_get(_player_state, item):
-    if _player_state.get_room() == (2, 2):
-        if item == "slingshot":
+
+    if item == "slingshot":
+        if _player_state.get_room() == (2, 2):
             _player_state.hasSlingshot = True
             return "You took the slingshot! Now you can shoot things!"
-        else:
-            return "There's no " + item + " here."
-    elif _player_state.get_room() == (0, 2):
-        if item == "sword" and _player_state.swordFell:
-            _player_state.hasSword = True
-            return "You took the sword! Now you can attack things!"
-    return "there's nothing here to take!"
+    elif item == "sword" and not _player_state.hasSword:
+        if _player_state.get_room() == (0, 2):
+            if _player_state.swordFell == True:
+                _player_state.hasSword = True
+                return "You took the sword! Now you can attack things!"
+            else:
+                return "There's a sword but it's too high to reach! If only you could shoot it down"
+    elif item == "upgrade":
+        if _player_state.get_room() == (2, 0):
+            if _player_state.acrossRiver == True:
+                return "Woah! You got an awesome shield!"
+            else:
+                return "You need to find a way across the river first!"
+    else:
+        return "There's nothing here to take!"
 
     pass
 
 
-def player_use (_player_state, arg):
-    x , y = arg.split(' on ')
+def player_use(_player_state, arg):
+    x, y = arg.split(' on ')
     if x == "slingshot":
-        if y == "sword" and _player_state.get_room() == (0, 2):
-            _player_state.swordFell = True
-            return "The you fire the slingshot and the sword clatters to your feet"
-        elif y == "bunny" and _player_state.get_room() == (1, 2):
-            return "The bunny gets hit and scampers off. You monster."
-
-        elif y == "wizard" and _player_state.get_room() == (0, 1):
-            return "The man gets hit and scampers off. You monster."
+        player_shoot(_player_state, y)
 
     return "that's not a valid item to use"
 
-def player_pet (_player_state, noun):
+def player_pet(_player_state, noun):
+    if noun == "bunny":
+        return "The bunny nuzzles up to you and purrs!"
+    else:
+        return "You can't pet that!"
     pass
 
 
-def player_shoot (_player_state, words):
+def player_shoot(_player_state, target):
+    if target == "sword" and _player_state.get_room() == (0, 2):
+        _player_state.swordFell = True
+        return "The you fire the slingshot and the sword clatters to your feet"
+    elif target == "bunny" and _player_state.get_room() == (1, 2):
+        _player_state.room.remove_all_sprites()
+        _player_state.room.add_sprite(sprites.Player(200, 200))
+        return "The bunny gets hit and scampers off. You monster."
+    elif target == "wizard" and _player_state.get_room() == (0, 1):
+        return "The man gets hit and scampers off. You monster."
+    else:
+        return "That's not a valid target to shoot"
     pass
 
 
 def player_help(_player_state, argument):
-    return "Here are the words we have so far!: go, talk, cast"
+    return "Here are the words we have so far!: go, talk, cast, use and shoot"
 
 PARSER_DICT = {
     'go'    : player_move,
@@ -94,25 +101,25 @@ PARSER_DICT = {
     'take'  : player_get,
     'use'   : player_use,
     'pet'   : player_pet,
-    'shoot ': player_shoot,
+    'shoot' : player_shoot,
     MAGIC_SPELL: player_cast,
 
 
 }
 
 
-def text_parser(input_string, player):
+def text_parser(input_string, player_state):
     input_string = input_string.lower()
     verb = input_string.split(' ')[0]
     noun = input_string.partition(' ')[2]
     if verb in PARSER_DICT:
-        output = PARSER_DICT[verb](player, noun)
+        output = PARSER_DICT[verb](player_state, noun)
 
     else:
         output = """Unknown verb. Try 'help'"""
 
-    player.first_command = False
-
+    player_state.first_command = False
+    gameUpdate.update_main_screen(player_state)
     return output
 
 

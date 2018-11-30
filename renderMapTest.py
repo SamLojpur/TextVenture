@@ -2,6 +2,10 @@ import pygame
 import worldLocations
 import testParser
 import textInput
+import playerState
+import gameUpdate
+
+
 
 HEIGHT = 790
 IMG_SIZE = 1920
@@ -22,9 +26,11 @@ gameDisplay.set_alpha(255)
 
 surf = pygame.Surface([IMG_SIZE, IMG_SIZE])
 
-player_state = worldLocations.generate_world()
 
-textinput = textInput.TextInput("", "pixelFont.ttf", 35, True, (255, 255, 255), 400, 400)
+player_state = worldLocations.generate_world()
+player_state.gameDisplay = gameDisplay
+
+textinput = textInput.TextInput("", "pixelFont.ttf", 35, True, (255, 255, 255), 1000, 1000)
 
 
 
@@ -47,23 +53,23 @@ c = 0
     
 
 running = True
+gameUpdate.update_main_screen(player_state)
 while running:
     # @todo move stuff to separate function for textbox
     # @todo make textbox multiline
+    #update_screen(player_state)
 
-    #pygame.event.get()
+    #x = player_state.room.x
+    #y = player_state.room.y
 
-    x = player_state.room.x
-    y = player_state.room.y
-    
-    # print(x)
-    # print(y)
-    gameDisplay.fill((0, 0, 0))
-    my_image.set_alpha(255)
-    gameDisplay.blit(my_image, [0, 0], [WIDTH*x, WIDTH*y, WIDTH, WIDTH])
-    
+    #gameDisplay.fill((0, 0, 0))
+    #gameDisplay.blit(my_image, [0, 0], [640*x, 640*y, 640, 640])
+
+
     promptLabel = labelFont.render(testParser.get_prompt_label(player_state), False, (255, 255, 255))
-        
+
+
+    gameDisplay.blit(text_box, (0,640))
     gameDisplay.blit(promptLabel, (0, 650))
     gameDisplay.blit(outputLabel1, (0, 690))
     gameDisplay.blit(outputLabel2, (0, 730))    
@@ -124,6 +130,7 @@ while running:
         
         
     sprites = player_state.room.render_room(player_state)
+
     sprites.update()
     sprites.draw(gameDisplay)        
 
