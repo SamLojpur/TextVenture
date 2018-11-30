@@ -35,8 +35,10 @@ class OldMan(pygame.sprite.Sprite):
 class Boss(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load("boss/sword.PNG")
+        self.image = pygame.image.load("images/boss.PNG")
         self.rect = self.image.get_rect()  
-        self.rect.x = 200
+        self.rect.x = 230
         self.rect.y = 200
+        
+
         

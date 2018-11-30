@@ -4,6 +4,7 @@ import sprites
 MAGIC_SPELL = "cast"
 
 
+
 def player_cast(_player_state, _):
     if _player_state.get_room() == (2, 0):
         return "Woah! The magic of " + MAGIC_SPELL + " let you jump over the river!"
@@ -31,7 +32,7 @@ def player_talk(_player_state, target):
     if _player_state.get_room() == (0, 1):
         return "\"Oh if only I could get my treasure from the north. It's guarded by a troll though :(\""
     if _player_state.get_room() == (1, 2):
-        return "The bunny can't talk. It is very cute though."
+        return "The bunny can't talk. It is very cute though. I need to fill another line"
     else:
         return "There is no one to talk to here."
 
