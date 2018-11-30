@@ -13,6 +13,7 @@ Remaining functions are original
 import pygame
 import testParser
 import pygame.locals as pl
+import gameUpdate
 
 pygame.font.init()
 
@@ -75,6 +76,8 @@ class TextInput:
         for event in events:
             # If the type of event is a key down, track the key that was pressed
             if event.type == pygame.KEYDOWN:
+                # gameUpdate.update_main_screen(player_state)
+
                 # If none exist, create counter for that key:
                 if event.key not in self.keyrepeat_counters:
                     self.keyrepeat_counters[event.key] = [0, event.unicode]

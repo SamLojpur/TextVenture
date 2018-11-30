@@ -68,8 +68,8 @@ while running:
 
     promptLabel = labelFont.render(testParser.get_prompt_label(player_state), False, (255, 255, 255))
 
+    pygame.draw.rect(gameDisplay, (0, 0, 0), [0, 640, 640, 790])
 
-    gameDisplay.blit(text_box, (0,640))
     gameDisplay.blit(promptLabel, (0, 650))
     gameDisplay.blit(outputLabel1, (0, 690))
     gameDisplay.blit(outputLabel2, (0, 730))    
@@ -109,7 +109,7 @@ while running:
                 gameDisplay.blit(outputLabel2, (0, 730)) 
 
                 #pygame.display.update(outputLabel1)
-                pygame.time.delay(2000)
+               #pygame.time.delay(2000)
                 """
                 if i > 1:
                     while True:
@@ -123,13 +123,11 @@ while running:
                         
                   """          
                 i+= 1
-                
-
-                
                 pygame.display.update()
+        gameUpdate.update_main_screen(player_state)
         
         
-    sprites = player_state.room.render_room(player_state)
+    sprites = player_state.room.get_sprites()
 
     sprites.update()
     sprites.draw(gameDisplay)        
