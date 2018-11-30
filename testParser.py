@@ -1,27 +1,35 @@
 import worldLocations
 import gameUpdate
 import sprites
-MAGIC_SPELL = "cast"
+MAGIC_SPELL = "friends"
 
 
 
 def player_cast(_player_state, _):
     if _player_state.get_room() == (2, 0):
-        return "Woah! The magic of " + MAGIC_SPELL + " let you jump over the river!"
-
-    else:
         _player_state.acrossRiver = not _player_state.acrossRiver
-        return "Woah! The magic of " + MAGIC_SPELL + " let you jump!"
+        _player_state.room.remove_sprite(sprites.Player())
+        if _player_state.acrossRiver:
+            _player_state.room.add_sprite(sprites.Player(50, 200))
+        else:
+            _player_state.room.add_sprite(sprites.Player(200, 400))
+
+
+        return "The magic of " + MAGIC_SPELL + " let you jump over the river!"
+    else:
+        return "The magic of " + MAGIC_SPELL + " let you jump!"
 
 
 def player_move(_player_state, direction):
 
     current_room = _player_state.room
-    _player_state.room = _player_state.room.take_path(direction)
+    if _player_state.acrossRiver:
+        return "You need to find a way across the river first!"
+    else:
+        _player_state.room = _player_state.room.take_path(direction)
+
     if _player_state.room.name == current_room.name:
         text = "There is no path that way!"
-    elif _player_state.acrossRiver:
-        return "You need to find a way across the river first!"
     else:
         text = "Now entering " + _player_state.room.get_name() + "\n" + _player_state.room.get_description()
 
@@ -30,7 +38,10 @@ def player_move(_player_state, direction):
 
 def player_talk(_player_state, target):
     if _player_state.get_room() == (0, 1):
-        return "\"Oh if only I could get my treasure from the north. It's guarded by a troll though :(\""
+        if _player_state.hasSword:
+            return "\"Awesome work! the magic word is \'" + MAGIC_SPELL + "\'!\""
+        else:
+            return "\"I'll teach magic to those with the sacred sword\""
     if _player_state.get_room() == (1, 2):
         return "The bunny can't talk. It is very cute though. I need to fill another line"
     else:
@@ -42,17 +53,21 @@ def player_get(_player_state, item):
     if item == "slingshot":
         if _player_state.get_room() == (2, 2):
             _player_state.hasSlingshot = True
+            _player_state.room.remove_sprite(sprites.Bunny())
             return "You took the slingshot! Now you can shoot things!"
     elif item == "sword" and not _player_state.hasSword:
-        if _player_state.get_room() == (0, 2):
+        if _player_state.get_room() == (0, 0):
             if _player_state.swordFell == True:
                 _player_state.hasSword = True
+                _player_state.room.remove_sprite(sprites.Sword())
                 return "You took the sword! Now you can attack things!"
             else:
-                return "There's a sword but it's too high to reach! If only you could shoot it down"
-    elif item == "upgrade":
+                return "The sword is too high!"
+                # return "There's a sword but it's too high to reach! If only you could shoot it down"
+    elif item == "shield":
         if _player_state.get_room() == (2, 0):
             if _player_state.acrossRiver == True:
+                _player_state.room.remove_sprite(sprites.Bunny())
                 return "Woah! You got an awesome shield!"
             else:
                 return "You need to find a way across the river first!"
@@ -78,17 +93,22 @@ def player_pet(_player_state, noun):
 
 
 def player_shoot(_player_state, target):
-    if target == "sword" and _player_state.get_room() == (0, 2):
-        _player_state.swordFell = True
-        return "The you fire the slingshot and the sword clatters to your feet"
-    elif target == "bunny" and _player_state.get_room() == (1, 2):
-        _player_state.room.remove_all_sprites()
-        _player_state.room.add_sprite(sprites.Player(200, 200))
-        return "The bunny gets hit and scampers off. You monster."
-    elif target == "wizard" and _player_state.get_room() == (0, 1):
-        return "The man gets hit and scampers off. You monster."
+    if _player_state.hasSlingshot:
+        if target == "sword" and _player_state.get_room() == (0, 0):
+            _player_state.swordFell = True
+            _player_state.room.remove_sprite(sprites.Sword())
+            _player_state.room.add_sprite(sprites.Sword(400, 300))
+            return "The sword clatters to your feet"
+        elif target == "bunny" and _player_state.get_room() == (1, 2):
+            _player_state.room.remove_sprite(sprites.Bunny())
+            return "The bunny gets hit and scampers off. You monster."
+        elif target == "wizard" and _player_state.get_room() == (0, 1):
+            _player_state.room.remove_sprite(sprites.OldMan())
+            return "The man gets hit and scampers off. You monster."
+        else:
+            return "That's not a valid target to shoot"
     else:
-        return "That's not a valid target to shoot"
+        return "You have nothing to shoot with"
     pass
 
 

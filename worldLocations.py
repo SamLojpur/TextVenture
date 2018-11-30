@@ -23,9 +23,15 @@ def generate_world():
         for room in row:
             room.add_sprite(player_sprite)
 
+    world[0][2].remove_all_sprites()
+    world[0][2].add_sprite(sprites.Player(200, 400))
+    world[0][2].add_sprite(sprites.Bunny(450, 50))
+
     world[1][0].add_sprite(sprites.OldMan())
     world[0][0].add_sprite(sprites.Sword())
     world[2][1].add_sprite(sprites.Bunny())
+    world[2][2].add_sprite(sprites.Bunny())
+
 
     print(world[1][1].name)
 
@@ -75,6 +81,7 @@ class Room:
         self.description_text = description_text
         self.name = name
         self.text = ""
+        self.sprites_list = []
         self.all_sprites = pygame.sprite.Group()
 
     def add_path(self, direction, room):
@@ -102,7 +109,9 @@ class Room:
         return self.description_text
 
     def add_sprite(self, sprite):
-        self.all_sprites.add(sprite)
+        print(type(sprite))
+        self.sprites_list.append(sprite)
+        self.sprite_update()
 
     def get_sprites(self):
         return self.all_sprites
@@ -110,10 +119,46 @@ class Room:
     def remove_all_sprites(self):
         self.all_sprites.empty()
 
+    def remove_sprite(self, sprite):
+        self.sprites_list = [x for x in self.sprites_list if not (type(sprite) == type(x))]
+        self.sprite_update()
 
+    def sprite_update(self):
+        self.all_sprites.empty()
+        for sprite in self.sprites_list:
+            self.all_sprites.add(sprite)
+
+    # def render_room(self):
+    #     all_sprites = pygame.sprite.Group()
+    #     #player_sprite = sprites.Player(200, 200)
+    #     #all_sprites.add(player_sprite)
+    #     # Room 8:
+    #     if self.x == 1 and self.y == 2:
+    #         player_sprite = sprites.Player(200, 125)
+    #         bunny_sprite = sprites.Bunny()
+    #         all_sprites.add(bunny_sprite)
+    #     # Room 4:
+    #     elif self.x == 0 and self.y == 1:
+    #         player_sprite = sprites.Player(200, 200)
+    #         oldMan_sprite = sprites.OldMan()
+    #         all_sprites.add(oldMan_sprite)
+    #
+    #     # Room 1:
+    #     elif self.x == 0 and self.y == 0:
+    #         player_sprite = sprites.Player(300, 350)
+    #         sword_sprite = sprites.Sword()
+    #         all_sprites.add(sword_sprite)
+    #
+    #     else:
+    #         player_sprite = sprites.Player(200, 200)
+    #
+    #
+    #     all_sprites.add(player_sprite)
+    #     return all_sprites
 
             
     # @todo render the sprites for the room here
+
 
 if __name__ == "__main__":
 
