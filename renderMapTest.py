@@ -24,7 +24,7 @@ text_box = pygame.Surface((640, 150))
 player_state = worldLocations.generate_world()
 player_state.gameDisplay = gameDisplay
 
-textinput = textInput.TextInput("", "pixelFont.ttf", 35, True, (255, 255, 255), 400, 400)
+textinput = textInput.TextInput("", "pixelFont.ttf", 35, True, (255, 255, 255), 1000, 1000)
 
 pygame.font.init()
 labelFont = pygame.font.Font("pixelFont.ttf", 35)
@@ -80,7 +80,7 @@ while running:
             outputLabel2 = labelFont.render(output_lines[1], False, (255, 255, 255))
         
         
-    sprites = player_state.room.render_room()
+    sprites = player_state.room.get_sprites()
     sprites.update()
     sprites.draw(gameDisplay)        
 
