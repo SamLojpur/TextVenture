@@ -97,7 +97,7 @@ while running:
 
         if output_lines != None:
             i = 0
-            f = True
+            #f = True
             while i < len(output_lines)-1:
                 pygame.draw.rect(gameDisplay, (0, 0, 0), [0, 640, 640, 790])
                 print("output text1: " + output_lines[i])
@@ -106,23 +106,21 @@ while running:
                 outputLabel2 = labelFont.render(output_lines[i + 1], False, (255, 255, 255))
     
                 gameDisplay.blit(outputLabel1, (0, 690))
-                gameDisplay.blit(outputLabel2, (0, 730)) 
+                gameDisplay.blit(outputLabel2, (0, 730))
+                gameDisplay.blit(promptLabel, (0, 650))
+                sprites = player_state.room.get_sprites()
+                sprites.update()
+                sprites.draw(gameDisplay)
 
                 #pygame.display.update(outputLabel1)
                #pygame.time.delay(2000)
-                """
+                   
+                i+= 1
                 if i > 1:
                     while True:
                         e = pygame.event.wait()
                         if e.type == pygame.KEYDOWN:
-                            if f:
-                                pass
-                                #break
-                            else:
-                                f = False
-                        
-                  """          
-                i+= 1
+                            break            
                 pygame.display.update()
         gameUpdate.update_main_screen(player_state)
         
