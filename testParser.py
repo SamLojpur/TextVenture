@@ -4,16 +4,14 @@ import sprites
 MAGIC_SPELL = "friends"
 
 
-
 def player_cast(_player_state, _):
     if _player_state.get_room() == (2, 0):
         _player_state.acrossRiver = not _player_state.acrossRiver
         _player_state.room.remove_sprite(sprites.Player())
         if _player_state.acrossRiver:
-            _player_state.room.add_sprite(sprites.Player(50, 200))
+            _player_state.room.add_sprite(sprites.Player(200, 5))
         else:
             _player_state.room.add_sprite(sprites.Player(200, 400))
-
 
         return "The magic of " + MAGIC_SPELL + " let you jump over the river!"
     else:

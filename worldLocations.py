@@ -3,6 +3,7 @@ import pygame
 import sprites
 import playerState
 
+
 def generate_world():
     world_gen_matrix = [
         [['Place 1', 'The first place'], ['Place 2', 'The second place'], ['Place 3', 'The third place']],
@@ -17,13 +18,12 @@ def generate_world():
     world[0][2].remove_path_to(world[0][1])
     world[0][1].remove_path_to(world[0][2])
 
-
     player_sprite = sprites.Player(200,200)
     for row in world:
         for room in row:
             room.add_sprite(player_sprite)
-
-    world[0][2].remove_all_sprites()
+    # the x and the y are backwards here be careful ron
+    world[0][2].remove_sprite(sprites.Player())
     world[0][2].add_sprite(sprites.Player(200, 400))
     world[0][2].add_sprite(sprites.Bunny(450, 50))
 
@@ -32,12 +32,9 @@ def generate_world():
     world[2][1].add_sprite(sprites.Bunny())
     world[2][2].add_sprite(sprites.Bunny())
 
+    my_position = world[1][1]
 
-    print(world[1][1].name)
-
-    myPosition = world[1][1]
-
-    player_state = playerState.PlayerState(myPosition)
+    player_state = playerState.PlayerState(my_position)
     return player_state
 
 
@@ -67,8 +64,6 @@ def worldgen_from_matrix(world_array):
                 current_room.add_path('east', east_room)
 
     return output_array
-
-
 
 
 class Room:
@@ -116,9 +111,6 @@ class Room:
     def get_sprites(self):
         return self.all_sprites
 
-    def remove_all_sprites(self):
-        self.all_sprites.empty()
-
     def remove_sprite(self, sprite):
         self.sprites_list = [x for x in self.sprites_list if not (type(sprite) == type(x))]
         self.sprite_update()
@@ -128,54 +120,8 @@ class Room:
         for sprite in self.sprites_list:
             self.all_sprites.add(sprite)
 
-    # def render_room(self):
-    #     all_sprites = pygame.sprite.Group()
-    #     #player_sprite = sprites.Player(200, 200)
-    #     #all_sprites.add(player_sprite)
-    #     # Room 8:
-    #     if self.x == 1 and self.y == 2:
-    #         player_sprite = sprites.Player(200, 125)
-    #         bunny_sprite = sprites.Bunny()
-    #         all_sprites.add(bunny_sprite)
-    #     # Room 4:
-    #     elif self.x == 0 and self.y == 1:
-    #         player_sprite = sprites.Player(200, 200)
-    #         oldMan_sprite = sprites.OldMan()
-    #         all_sprites.add(oldMan_sprite)
-    #
-    #     # Room 1:
-    #     elif self.x == 0 and self.y == 0:
-    #         player_sprite = sprites.Player(300, 350)
-    #         sword_sprite = sprites.Sword()
-    #         all_sprites.add(sword_sprite)
-    #
-    #     else:
-    #         player_sprite = sprites.Player(200, 200)
-    #
-    #
-    #     all_sprites.add(player_sprite)
-    #     return all_sprites
 
             
     # @todo render the sprites for the room here
-
-
-if __name__ == "__main__":
-
-    world_gen_matrix = [
-        [['Place 1', 'The first place'], ['Place 2', 'The second place'], ['Place 3', 'The third place']],
-        [['Place 4', 'The fourth place'], ['Place 5', 'The fifth place'], ['Place 6', 'The sixth place']],
-        [['Place 7', 'The seventh place'], ['Place 8', 'The eighth place'], ['Place 9', 'The ninth place']],
-    ]
-
-    world_matrix = worldgen_from_matrix(world_gen_matrix)
-    print(world_matrix[1][1].name)
-
-    myPosition = world_matrix[1][1]
-
-    myPosition = myPosition.take_path('East')
-    myPosition = myPosition.take_path('East')
-    myPosition = myPosition.take_path('South')
-    myPosition = myPosition.take_path('West')
 
 
