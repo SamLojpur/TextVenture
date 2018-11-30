@@ -1,6 +1,7 @@
-import testParser
+#import testParser
 import pygame
 import sprites
+import playerState
 
 def generate_world():
     world_gen_matrix = [
@@ -20,7 +21,7 @@ def generate_world():
 
     myPosition = world[1][1]
 
-    player_state = testParser.PlayerState(myPosition)
+    player_state = playerState.PlayerState(myPosition)
     return player_state
 
 

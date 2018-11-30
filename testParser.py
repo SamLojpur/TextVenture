@@ -1,19 +1,7 @@
 import worldLocations
+import gameUpdate
 MAGIC_SPELL = "cast"
 
-
-class PlayerState:
-    def __init__(self, room):
-        self.room = room
-        self.text = ""
-        self.first_command = True
-        self.acrossRiver = False
-        self.hasSlingshot = False
-        self.swordFell = False
-        self.hasSword = False
-
-    def get_room(self):
-        return self.room.x, self.room.y
 
 
 def player_cast(_player_state, direction):
@@ -100,18 +88,18 @@ PARSER_DICT = {
 }
 
 
-def text_parser(input_string, player):
+def text_parser(input_string, player_state):
     input_string = input_string.lower()
     verb = input_string.split(' ')[0]
     noun = input_string.partition(' ')[2]
     if verb in PARSER_DICT:
-        output = PARSER_DICT[verb](player, noun)
+        output = PARSER_DICT[verb](player_state, noun)
 
     else:
         output = """Unknown verb. Try 'help'"""
 
-    player.first_command = False
-
+    player_state.first_command = False
+    gameUpdate.update_main_screen(player_state)
     return output
 
 

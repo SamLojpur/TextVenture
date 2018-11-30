@@ -2,6 +2,10 @@ import pygame
 import worldLocations
 import testParser
 import textInput
+import playerState
+import gameUpdate
+
+
 
 # @todo add constants
 # @todo get pycharm KATE
@@ -15,8 +19,10 @@ pygame.display.set_caption('World')
 my_image = pygame.image.load("images/map.PNG")
 
 surf = pygame.Surface([1920, 1920])
+text_box = pygame.Surface((640, 150))
 
 player_state = worldLocations.generate_world()
+player_state.gameDisplay = gameDisplay
 
 textinput = textInput.TextInput("", "pixelFont.ttf", 35, True, (255, 255, 255), 400, 400)
 
@@ -27,22 +33,23 @@ outputLabel1 = labelFont.render('', False, (255, 255, 255))
 outputLabel2 = labelFont.render('', False, (255, 255, 255))
 
 running = True
+gameUpdate.update_main_screen(player_state)
 while running:
     # @todo move stuff to separate function for textbox
     # @todo make textbox multiline
+    #update_screen(player_state)
 
-    pygame.event.get()
+    #x = player_state.room.x
+    #y = player_state.room.y
 
-    x = player_state.room.x
-    y = player_state.room.y
-    
-    # print(x)
-    # print(y)
-    gameDisplay.fill((0, 0, 0))
-    gameDisplay.blit(my_image, [0, 0], [640*x, 640*y, 640, 640])
-    
+    #gameDisplay.fill((0, 0, 0))
+    #gameDisplay.blit(my_image, [0, 0], [640*x, 640*y, 640, 640])
+
+
     promptLabel = labelFont.render(testParser.get_prompt_label(player_state), False, (255, 255, 255))
-        
+
+
+    gameDisplay.blit(text_box, (0,640))
     gameDisplay.blit(promptLabel, (0, 650))
     gameDisplay.blit(outputLabel1, (0, 690))
     gameDisplay.blit(outputLabel2, (0, 730))
@@ -68,6 +75,7 @@ while running:
         output_lines = textinput.print_lines(output_text)
         print("output text: " + output_text)
         if output_lines != None:
+
             outputLabel1 = labelFont.render(output_lines[0], False, (255, 255, 255))
             outputLabel2 = labelFont.render(output_lines[1], False, (255, 255, 255))
         
