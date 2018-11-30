@@ -7,7 +7,7 @@ class PlayerState:
         self.text = ""
         self.first_command = True
         self.acrossRiver = False
-        self.hasSlingshot = True
+        self.hasSlingshot = False
         self.swordFell = False
         self.hasSword = False
 

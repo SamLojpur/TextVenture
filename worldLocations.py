@@ -48,20 +48,28 @@ def worldgen_from_matrix(world_array):
             current_row.append(current_room)
 
     for i in range(len(output_array)):
-        for j in range(len(output_array[0])):
+        for j in range(len(output_array[i])):
             current_room = output_array[i][j]
             if i - 1 >= 0:
                 north_room = output_array[i-1][j]
                 current_room.add_path('north', north_room)
+                current_room.add_path('up', north_room)
+                current_room.add_path('n', north_room)
             if i + 1 < len(output_array):
                 south_room = output_array[i+1][j]
                 current_room.add_path('south', south_room)
+                current_room.add_path('down', south_room)
+                current_room.add_path('s', south_room)
             if j - 1 >= 0:
                 west_room = output_array[i][j-1]
                 current_room.add_path('west', west_room)
+                current_room.add_path('left', west_room)
+                current_room.add_path('w', west_room)
             if j + 1 < len(output_array[0]):
                 east_room = output_array[i][j+1]
                 current_room.add_path('east', east_room)
+                current_room.add_path('e', east_room)
+                current_room.add_path('right', east_room)
 
     return output_array
 

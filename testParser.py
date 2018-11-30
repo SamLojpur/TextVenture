@@ -1,7 +1,7 @@
 import worldLocations
 import gameUpdate
 import sprites
-MAGIC_SPELL = "friends"
+MAGIC_SPELL = "xyzzy"
 
 
 def player_cast(_player_state, _):
@@ -21,13 +21,13 @@ def player_cast(_player_state, _):
 def player_move(_player_state, direction):
 
     current_room = _player_state.room
-    if _player_state.acrossRiver:
-        return "You need to find a way across the river first!"
-    else:
-        _player_state.room = _player_state.room.take_path(direction)
+
+    _player_state.room = _player_state.room.take_path(direction)
 
     if _player_state.room.name == current_room.name:
         text = "There is no path that way!"
+    elif _player_state.acrossRiver:
+        return "You need to find a way across the river first!"
     else:
         text = "Now entering " + _player_state.room.get_name() + "\n" + _player_state.room.get_description()
 
@@ -114,9 +114,13 @@ def player_help(_player_state, argument):
     return "Here are the words we have so far!: go, talk, cast, use and shoot"
 
 PARSER_DICT = {
+    'help'  : player_help,
+    'move'  : player_move,
+    'cast'  : player_cast,
     'go'    : player_move,
     'talk'  : player_talk,
     'take'  : player_get,
+    'get'   : player_get,
     'use'   : player_use,
     'pet'   : player_pet,
     'shoot' : player_shoot,

@@ -48,8 +48,6 @@ if x != None:
         print(x[i])
         """
 
-
-c = 0
     
 
 running = True
