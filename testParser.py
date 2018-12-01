@@ -29,7 +29,7 @@ def player_move(_player_state, direction):
     elif _player_state.acrossRiver:
         return "You need to find a way across the river first!"
     else:
-        text = "Now entering " + _player_state.room.get_name() + "\n" + _player_state.room.get_description()
+        text = "Now entering " + _player_state.room.get_name() + _player_state.room.get_description()
 
     return text
 
@@ -41,7 +41,7 @@ def player_talk(_player_state, target):
         else:
             return "\"I'll teach magic to those with the sacred sword\""
     if _player_state.get_room() == (1, 2):
-        return "The bunny can't talk. It is very cute though. I need to fill another line"
+        return "The bunny can't talk. It is very cute though."
     else:
         return "There is no one to talk to here."
 
@@ -60,8 +60,8 @@ def player_get(_player_state, item):
                 _player_state.room.remove_sprite(sprites.Sword())
                 return "You took the sword! Now you can attack things!"
             else:
-                return "The sword is too high!"
-                # return "There's a sword but it's too high to reach! If only you could shoot it down"
+                #return "The sword is too high!"
+                return "There's a sword but it's too high to reach! If only you could shoot it down"
     elif item == "shield":
         if _player_state.get_room() == (2, 0):
             if _player_state.acrossRiver == True:

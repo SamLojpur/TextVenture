@@ -25,12 +25,13 @@ def generate_world():
     # the x and the y are backwards here be careful ron
     world[0][2].remove_sprite(sprites.Player())
     world[0][2].add_sprite(sprites.Player(200, 400))
-    world[0][2].add_sprite(sprites.Bunny(450, 50))
+    world[0][2].add_sprite(sprites.Shield())
 
     world[1][0].add_sprite(sprites.OldMan())
     world[0][0].add_sprite(sprites.Sword())
     world[2][1].add_sprite(sprites.Bunny())
-    world[2][2].add_sprite(sprites.Bunny())
+    world[2][2].add_sprite(sprites.Slingshot())
+    world[2][0].add_sprite(sprites.Goblin())
 
     my_position = world[1][1]
 
@@ -112,7 +113,7 @@ class Room:
         return self.description_text
 
     def add_sprite(self, sprite):
-        print(type(sprite))
+        #print(type(sprite))
         self.sprites_list.append(sprite)
         self.sprite_update()
 
