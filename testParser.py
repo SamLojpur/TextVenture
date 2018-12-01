@@ -1,7 +1,7 @@
 import worldLocations
 import gameUpdate
 import sprites
-MAGIC_SPELL = "xyzzy"
+MAGIC_SPELL = "finances"
 
 
 def player_cast(_player_state, _):
@@ -29,17 +29,17 @@ def player_move(_player_state, direction):
     elif _player_state.acrossRiver:
         return "You need to find a way across the river first!"
     else:
-        text = "Now entering " + _player_state.room.get_name() + _player_state.room.get_description()
+        text = "Now entering " + _player_state.room.get_name() +  " " + _player_state.room.get_description()
 
     return text
 
 
 def player_talk(_player_state, target):
     if _player_state.get_room() == (0, 1):
-        if _player_state.hasSword:
+        if _player_state.killedGoblin:
             return "\"Awesome work! the magic word is \'" + MAGIC_SPELL + "\'!\""
         else:
-            return "\"I'll teach magic to those with the sacred sword\""
+            return "\"I'll teach magic to those with the blood of a goblin.\""
     if _player_state.get_room() == (1, 2):
         return "The bunny can't talk. It is very cute though."
     else:
@@ -51,8 +51,10 @@ def player_get(_player_state, item):
     if item == "slingshot":
         if _player_state.get_room() == (2, 2):
             _player_state.hasSlingshot = True
-            _player_state.room.remove_sprite(sprites.Bunny())
+            _player_state.room.remove_sprite(sprites.Slingshot())
             return "You took the slingshot! Now you can shoot things!"
+        else:
+            return "There's no slingshot here. "
     elif item == "sword" and not _player_state.hasSword:
         if _player_state.get_room() == (0, 0):
             if _player_state.swordFell == True:
@@ -62,20 +64,27 @@ def player_get(_player_state, item):
             else:
                 #return "The sword is too high!"
                 return "There's a sword but it's too high to reach! If only you could shoot it down"
+        else:
+            return "There's no sword here."
     elif item == "shield":
         if _player_state.get_room() == (2, 0):
             if _player_state.acrossRiver == True:
-                _player_state.room.remove_sprite(sprites.Bunny())
+                _player_state.room.remove_sprite(sprites.Shield())
+                _player_state.hasShield = True
                 return "Woah! You got an awesome shield!"
             else:
+                _player_state.acrossRiver = True
                 return "You need to find a way across the river first!"
+        else:
+            return "There's no shield here to take."
     else:
-        return "There's nothing here to take!"
+        return "There's no " + item + " here to take."
 
     pass
 
 
 def player_use(_player_state, arg):
+    # 'use slingshot' causes bug
     x, y = arg.split(' on ')
     if x == "slingshot":
         player_shoot(_player_state, y)
@@ -108,6 +117,26 @@ def player_shoot(_player_state, target):
     else:
         return "You have nothing to shoot with"
     pass
+# add boss
+# fix old man spell
+def player_attack(_player_state, target):
+    if _player_state.hasSword:
+        # Room 2
+        if target == 'goblin' and _player_state.get_room() == (0, 2):
+            _player_state.room.remove_sprite(sprites.Goblin())
+            _player_state.killedGoblin = True
+            return "You showed no mercy to the goblin and collected its blood."
+        if target == 'boss' and _player_state.get_room() == (1, 0) and _player_state.hasShield:
+            _player_state.room.remove_sprite(sprites.Boss())
+            gameOver = True
+            return "You have killed the boss and saved the kingdom!"
+        elif target == 'boss' and _player_state.get_room() == (1, 0) and not(_player_state.hasShield):
+            _player_state.room.remove_sprite(sprites.Player())
+            _player_state.gameOver = True
+            return "You were not strong enough to defeat the boss. "
+    else:
+        return "You have nothing to attack with. "
+        
 
 
 def player_help(_player_state, argument):
@@ -124,6 +153,9 @@ PARSER_DICT = {
     'use'   : player_use,
     'pet'   : player_pet,
     'shoot' : player_shoot,
+    'attack': player_attack,
+    'hit'   : player_attack,
+    'kill'  : player_attack,
     MAGIC_SPELL: player_cast,
 
 

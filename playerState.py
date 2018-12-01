@@ -10,6 +10,9 @@ class PlayerState:
         self.hasSlingshot = False
         self.swordFell = False
         self.hasSword = False
+        self.hasShield = False
+        self.gameOver = True
+        self.killedGoblin = False
 
     def get_room(self):
         return self.room.x, self.room.y

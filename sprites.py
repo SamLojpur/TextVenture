@@ -38,7 +38,7 @@ class OldMan(pygame.sprite.Sprite):
 
 
 class Boss(pygame.sprite.Sprite):
-    def __init__(self, x = 230, y = 200):
+    def __init__(self, x = 150, y = 150):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load("images/boss.PNG")
         self.rect = self.image.get_rect()
@@ -47,7 +47,7 @@ class Boss(pygame.sprite.Sprite):
         
 
 class Slingshot(pygame.sprite.Sprite):
-    def __init__(self, x = 450, y = 450):
+    def __init__(self, x = 460, y = 400):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load("images/slingshot.PNG")
         self.rect = self.image.get_rect()

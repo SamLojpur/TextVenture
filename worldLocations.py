@@ -32,6 +32,7 @@ def generate_world():
     world[2][1].add_sprite(sprites.Bunny())
     world[2][2].add_sprite(sprites.Slingshot())
     world[2][0].add_sprite(sprites.Goblin())
+    world[0][1].add_sprite(sprites.Boss())
 
     my_position = world[1][1]
 

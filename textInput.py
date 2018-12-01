@@ -166,12 +166,12 @@ class TextInput:
         
     
     def get_lines(self, text, lines):
-        if len(text) > 27:
+        if len(text) > 26:
             words = text.split(" ")
             chars = 0
             i = 0
             newWords = ""
-            while chars < 27 and i < len(words):
+            while chars < 26 and i < len(words):
                 chars += len(words[i])
                 i += 1
             for x in range(0, i - 2):
