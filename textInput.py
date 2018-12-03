@@ -165,37 +165,73 @@ class TextInput:
         self.cursor_position = 0
         
     
-    def get_lines(self, text, lines):
-        if len(text) > 26:
+    """
+        Description: Takes in a long string of text and splits it into
+        individual lines of a given length.
+        
+        Arguments:
+            text: The line of text to be converted into smaller lines
+            lines: The array containing the smaller lines of text
+            length: The maximum number of characters to include in each line
+            
+        Returns:
+            lines: An array containing lines each with a length less than or
+            equal to the given length
+    """
+    def get_lines(self, text, lines, length):
+        # If the length of the given text is longer than length, it must be
+        # shortened
+        if len(text) > length:
+            # Split the text into individual lines of text
             words = text.split(" ")
             chars = 0
             i = 0
             newWords = ""
-            while chars < 26 and i < len(words):
+            # Counts up the number of characters in every word until the length
+            # of characters is reached. Also tracks the number of words
+            while chars < length and i < len(words):
                 chars += len(words[i])
                 i += 1
+            # Appends all of the words found with total length <= the given
+            # length with a space
             for x in range(0, i - 2):
                 newWords += words[x]
                 newWords += " "
+            # Appends the line to a position in lines array
             lines.append(newWords)
             remainingWords = ""
+            # Assigns all remaining words to a new string
             for j in range(i - 2, len(words)):
                 remainingWords += words[j]
-                remainingWords += " " 
-            self.get_lines(remainingWords, lines)
+                remainingWords += " "
+            # Continues shrinknig remaining lines until the last line already
+            # has length <= length
+            self.get_lines(remainingWords, lines, 26)
+        # When the last line has length <= length, the last line is appended
+        # and the lines are returned
         else:
             lines.append(text)
         return lines
-    
-    
+
+
+    """
+        Description: Ensures that the array of lines to print has an even length
+        
+        Arguments:
+            text: The text to be printed
+        
+        Returns:
+            lines: An array containing lines of text with a maximum character
+            length of even size. The function guarentees that the returned array
+            has at least two elements
+    """
     def print_lines(self, text):
-        lines = self.get_lines(text, [])
-        #if len(lines) == 2:
+        # Gets the lines of text from get_lines
+        lines = self.get_lines(text, [], 26)
+        # If the size of the array of lines is already even, it is returned
         if len(lines) % 2 == 0:
             return lines
+        # Otherwise, an empty line is appended and the lines are returned
         else:
             lines.append("")
             return lines
-        
-            
-        

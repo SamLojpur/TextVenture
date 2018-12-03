@@ -27,6 +27,7 @@ def player_move(_player_state, direction):
     if _player_state.room.name == current_room.name:
         text = "There is no path that way!"
     elif _player_state.acrossRiver:
+        _player_state.room = current_room
         return "You need to find a way across the river first!"
     else:
         text = "Now entering " + _player_state.room.get_name() +  " " + _player_state.room.get_description()
@@ -134,6 +135,8 @@ def player_attack(_player_state, target):
             _player_state.room.remove_sprite(sprites.Player())
             _player_state.gameOver = True
             return "You were not strong enough to defeat the boss. "
+        else:
+            return "You cannot attack that."
     else:
         return "You have nothing to attack with. "
         
