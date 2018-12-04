@@ -51,6 +51,8 @@ if x != None:
     
 
 running = True
+
+
 gameUpdate.update_main_screen(player_state)
 while running:
     # @todo move stuff to separate function for textbox
@@ -84,8 +86,10 @@ while running:
             running = False
 
 
+
+
     input_text = " "
-    output_text = " "
+    # output_text = " "
     if textinput.update(events):
         input_text = textinput.get_text()
         textinput.clear_text()
@@ -96,7 +100,7 @@ while running:
         if output_lines != None:
             i = 0
             #f = True
-            while i < len(output_lines)-1:
+            while i < len(output_lines)-3:
                 pygame.draw.rect(gameDisplay, (0, 0, 0), [0, 640, 640, 790])
                 print("output text1: " + output_lines[i])
                 outputLabel1 = labelFont.render(output_lines[i], False, (255, 255, 255))
@@ -121,8 +125,12 @@ while running:
                             break            
                 pygame.display.update()
         gameUpdate.update_main_screen(player_state)
-        
-        
+
+    if player_state.first_command:
+
+        output_text = testParser.text_parser("go s", player_state)
+        pygame.display.update()
+
     sprites = player_state.room.get_sprites()
 
     sprites.update()

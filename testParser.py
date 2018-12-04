@@ -30,7 +30,10 @@ def player_move(_player_state, direction):
         _player_state.room = current_room
         return "You need to find a way across the river first!"
     else:
-        text = "Now entering " + _player_state.room.get_name() +  " " + _player_state.room.get_description()
+        if _player_state.visited_room():
+            text = "Now entering " + _player_state.room.get_name()
+        else:
+            text = "Now entering " + _player_state.room.get_name() +  ": " + _player_state.room.get_description()
 
     return text
 

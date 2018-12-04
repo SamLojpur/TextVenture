@@ -6,9 +6,9 @@ import playerState
 
 def generate_world():
     world_gen_matrix = [
-        [['Place 1', 'The first place'], ['Place 2', 'The second place'], ['Place 3', 'The third place']],
-        [['Place 4', 'The fourth place'], ['Place 5', 'The fifth place'], ['Place 6', 'The sixth place']],
-        [['Place 7', 'The seventh place'], ['Place 8', 'The eighth place'], ['Place 9', 'The ninth place']],
+        [['the Cliffs', 'Above you, a sword lies on top of a cliff. It seems like it would fall if you shot it somehow. To the south is the Cabin.'], ['the Castle', 'Before you stands an emo kid, usin\' some dark magics on the kingdom. You must stop him!'], ['the River', 'Across the river lies a powerful shield. The river is running too fast to cross.']],
+        [['the Lone Cabin', 'The old man in front of you looks magical. Maybe you could talk to him.'], ['the Plains', 'The fifth place'], ['the Path', 'You stand at a crossroads. To the north is the river; to the south is the forest.']],
+        [['the Grove', 'A vicious goblin roams this area. You would need a powerful sword to kill him.'], ['the Forest', 'A very cute bunny is here, his fur is so fluffy you can\'t stand it'], ['the Forest (east)', 'There is a slingshot sitting on the ground before you. You should take it.']],
     ]
 
     world = worldgen_from_matrix(world_gen_matrix)
@@ -34,7 +34,7 @@ def generate_world():
     world[2][0].add_sprite(sprites.Goblin())
     world[0][1].add_sprite(sprites.Boss())
 
-    my_position = world[1][1]
+    my_position = world[0][1]
 
     player_state = playerState.PlayerState(my_position)
     return player_state
