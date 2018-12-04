@@ -11,10 +11,6 @@ HEIGHT = 790
 IMG_SIZE = 1920
 WIDTH = 640
 
-# @todo add constants
-# @todo get pycharm KATE
-
-# pygame.init()
 clock = pygame.time.Clock()
 
 gameDisplay = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -23,47 +19,21 @@ pygame.display.set_caption('World')
 my_image = pygame.image.load("images/map.PNG").convert()
 gameDisplay.set_alpha(255)    
 
-
 surf = pygame.Surface([IMG_SIZE, IMG_SIZE])
-
 
 player_state = worldLocations.generate_world()
 player_state.gameDisplay = gameDisplay
 
 textinput = textInput.TextInput("", "pixelFont.ttf", 35, True, (255, 255, 255), 1000, 1000)
 
-
-
 pygame.font.init()
 labelFont = pygame.font.Font("pixelFont.ttf", 35)
-# promptLabel = labelFont.render(testParser.get_prompt_label(player_state), False, (255, 255, 255))
 outputLabel1 = labelFont.render('', False, (255, 255, 255))
-outputLabel2 = labelFont.render('', False, (255, 255, 255))
-
-
-"""
-x = textinput.print_lines("The bunny can't talk. It is very cute though. I need to fill another line")
-if x != None:
-    for i in range(0, len(x)):
-        print(x[i])
-        """
-
-    
+outputLabel2 = labelFont.render('', False, (255, 255, 255))    
 
 running = True
 gameUpdate.update_main_screen(player_state)
 while running:
-    # @todo move stuff to separate function for textbox
-    # @todo make textbox multiline
-    #update_screen(player_state)
-
-    #x = player_state.room.x
-    #y = player_state.room.y
-
-    #gameDisplay.fill((0, 0, 0))
-    #gameDisplay.blit(my_image, [0, 0], [640*x, 640*y, 640, 640])
-
-
     promptLabel = labelFont.render(testParser.get_prompt_label(player_state), False, (255, 255, 255))
 
     pygame.draw.rect(gameDisplay, (0, 0, 0), [0, 640, 640, 790])
@@ -75,14 +45,12 @@ while running:
     # Small bug here, after entering first command, input flashes before disappearing 
     gameDisplay.blit(textinput.get_surface(), (len(testParser.get_prompt_label(player_state)) * 21, 650))
     
-
     # Process exit event
     events = pygame.event.get()
     for event in pygame.event.get():
         # check for closing window
         if event.type == pygame.QUIT:
             running = False
-
 
     input_text = " "
     output_text = " "
@@ -129,11 +97,6 @@ while running:
     sprites.draw(gameDisplay)        
 
     pygame.display.update()
-    
-    
-    # if player_state.room.get_text() != "":
-    # print(player_state.room.get_text())
-    #gameDisplay.blit(commandLabel, (0, 750))
 
 pygame.display.quit() 
 pygame.quit()

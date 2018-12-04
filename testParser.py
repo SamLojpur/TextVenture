@@ -85,12 +85,19 @@ def player_get(_player_state, item):
 
 
 def player_use(_player_state, arg):
-    # 'use slingshot' causes bug
-    x, y = arg.split(' on ')
-    if x == "slingshot":
-        player_shoot(_player_state, y)
-
-    return "that's not a valid item to use"
+    # 'use slingshot' causes bug\
+    #print("ARG", arg)
+    if ' on ' in arg:
+        #print("ARG", arg)
+        x, y = arg.split(' on ')
+        if x == "slingshot":
+            print("Slingshot")
+            text = player_shoot(_player_state, y)
+            return text
+    elif arg == 'slingshot':
+        return "You need a target to shoot!"
+    else:
+        return "that's not a valid item to use"
 
 def player_pet(_player_state, noun):
     if noun == "bunny":
@@ -101,6 +108,7 @@ def player_pet(_player_state, noun):
 
 
 def player_shoot(_player_state, target):
+    print("PLAYER SHOOT")
     if _player_state.hasSlingshot:
         if target == "sword" and _player_state.get_room() == (0, 0):
             _player_state.swordFell = True
@@ -110,12 +118,17 @@ def player_shoot(_player_state, target):
         elif target == "bunny" and _player_state.get_room() == (1, 2):
             _player_state.room.remove_sprite(sprites.Bunny())
             return "The bunny gets hit and scampers off. You monster."
-        elif target == "wizard" and _player_state.get_room() == (0, 1):
+        elif target == "old man" and _player_state.get_room() == (0, 1):
             _player_state.room.remove_sprite(sprites.OldMan())
-            return "The man gets hit and scampers off. You monster."
+            return "The old man gets hit and scampers off. You monster."
+        elif target == "goblin" and  _player_state.get_room() == (0, 2):
+            return "Your slingshot is not strong enough to kill the goblin."
+        elif target == "emo kid" and  _player_state.get_room() == (1, 0):
+            return "Your slingshot is not strong enough to kill the emo kid."
         else:
             return "That's not a valid target to shoot"
     else:
+        print("NOTHING TO SHOOT")
         return "You have nothing to shoot with"
     pass
 # add boss
@@ -127,14 +140,14 @@ def player_attack(_player_state, target):
             _player_state.room.remove_sprite(sprites.Goblin())
             _player_state.killedGoblin = True
             return "You showed no mercy to the goblin and collected its blood."
-        if target == 'boss' and _player_state.get_room() == (1, 0) and _player_state.hasShield:
+        if target == 'emo kid' and _player_state.get_room() == (1, 0) and _player_state.hasShield:
             _player_state.room.remove_sprite(sprites.Boss())
             gameOver = True
-            return "You have killed the boss and saved the kingdom!"
-        elif target == 'boss' and _player_state.get_room() == (1, 0) and not(_player_state.hasShield):
+            return "You have killed the emo kid and saved the kingdom!"
+        elif target == 'emo kid' and _player_state.get_room() == (1, 0) and not(_player_state.hasShield):
             _player_state.room.remove_sprite(sprites.Player())
             _player_state.gameOver = True
-            return "You were not strong enough to defeat the boss. "
+            return "You were not strong enough to defeat the emo kid. "
         else:
             return "You cannot attack that."
     else:
