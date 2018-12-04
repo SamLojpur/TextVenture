@@ -169,6 +169,7 @@ def player_attack(_player_state, target):
         return "You have nothing to attack with. "
         
 def player_look(_player_state, argument):
+    #@todo if you took something dont describe it
     return _player_state.room.description_text
 
 def player_help(_player_state, argument):
