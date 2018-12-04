@@ -73,14 +73,15 @@ def player_talk(_player_state, target):
 def player_get(_player_state, item):
 
     if item == "slingshot":
-        if _player_state.get_room() == (2, 2):
+
+        if _player_state.get_room() == (2, 2) and not _player_state.hasSlingshot:
             _player_state.hasSlingshot = True
             _player_state.room.remove_sprite(sprites.Slingshot())
             return "You took the slingshot! Now you can shoot things!"
         else:
             return "There's no slingshot here. "
-    elif item == "sword" and not _player_state.hasSword:
-        if _player_state.get_room() == (0, 0):
+    elif item == "sword" :
+        if _player_state.get_room() == (0, 0) and not _player_state.hasSword:
             if _player_state.swordFell == True:
                 _player_state.hasSword = True
                 _player_state.room.remove_sprite(sprites.Sword())
@@ -91,8 +92,8 @@ def player_get(_player_state, item):
         else:
             return "There's no sword here."
     elif item == "shield":
-        if _player_state.get_room() == (2, 0):
-            if _player_state.acrossRiver == True:
+        if _player_state.get_room() == (2, 0) and not _player_state.hasShield:
+            if _player_state.acrossRiver :
                 _player_state.room.remove_sprite(sprites.Shield())
                 _player_state.hasShield = True
                 return "Woah! You got an awesome shield!"
@@ -116,7 +117,7 @@ def player_use(_player_state, arg):
     return "that's not a valid item to use"
 
 def player_pet(_player_state, noun):
-    if noun == "bunny":
+    if noun == "bunny" and _player_state.get_room() == (1, 2):
         return "The bunny nuzzles up to you and purrs!"
     else:
         return "You can't pet that!"
@@ -136,9 +137,9 @@ def player_shoot(_player_state, target):
         elif target == "old man" and _player_state.get_room() == (0, 1):
             _player_state.room.remove_sprite(sprites.OldMan())
             return "The man gets hit and scampers off. You monster."
-        elif target == "shield":
+        elif target == "shield" and _player_state.get_room() == (2, 0):
             return "The projectile dings off the shield. It has no effect."
-        elif target == "goblin":
+        elif target == "goblin" and _player_state.get_room() == (0, 2):
             return "It hits the goblin right in the forehead! Oh no! You only made him angrier!"
         else:
             return "That's not a valid target to shoot"

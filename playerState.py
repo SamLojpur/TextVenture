@@ -9,7 +9,7 @@ class PlayerState:
         self.acrossRiver = False
         self.hasSlingshot = False
         self.swordFell = False
-        self.hasSword = True
+        self.hasSword = False
         self.hasShield = False
         self.gameOver = False
         self.killedGoblin = False

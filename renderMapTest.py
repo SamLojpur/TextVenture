@@ -11,8 +11,6 @@ def main():
     IMG_SIZE = 1920
     WIDTH = 640
 
-    # @todo add constants
-    # @todo get pycharm KATE
 
     # pygame.init()
     clock = pygame.time.Clock()
@@ -52,8 +50,7 @@ def main():
     gameUpdate.update_main_screen(player_state)
 
     while running:
-        # @todo move stuff to separate function for textbox
-        # @todo make textbox multiline
+
         #update_screen(player_state)
 
         #x = player_state.room.x
