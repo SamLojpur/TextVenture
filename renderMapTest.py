@@ -100,7 +100,7 @@ while running:
         if output_lines != None:
             i = 0
             #f = True
-            while i < len(output_lines)-3:
+            while i < len(output_lines)-1:
                 pygame.draw.rect(gameDisplay, (0, 0, 0), [0, 640, 640, 790])
                 print("output text1: " + output_lines[i])
                 outputLabel1 = labelFont.render(output_lines[i], False, (255, 255, 255))
@@ -126,18 +126,18 @@ while running:
                 pygame.display.update()
 
             pygame.draw.rect(gameDisplay, (0, 0, 0), [0, 640, 640, 790])
-            if len(output_lines) > 4:
-                print("output text1: " + output_lines[-4])
-                outputLabel1 = labelFont.render(output_lines[-4], False, (255, 255, 255))
-                print("output text2: " + output_lines[-3])
-                outputLabel2 = labelFont.render(output_lines[-3], False, (255, 255, 255))
-
+            if len(output_lines) > 3:
+                print("output text1: " + output_lines[-2])
+                outputLabel1 = labelFont.render(output_lines[-2], False, (255, 255, 255))
+                print("output text2: " + output_lines[-1])
+                outputLabel2 = labelFont.render(output_lines[-1], False, (255, 255, 255))
 
             else:
                 print("output text1: " + output_lines[0])
                 outputLabel1 = labelFont.render(output_lines[0], False, (255, 255, 255))
                 print("output text2: " + output_lines[1])
                 outputLabel2 = labelFont.render(output_lines[1], False, (255, 255, 255))
+            print (output_lines)
 
             gameDisplay.blit(outputLabel1, (0, 690))
             gameDisplay.blit(outputLabel2, (0, 730))

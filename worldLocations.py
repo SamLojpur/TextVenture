@@ -18,7 +18,7 @@ def generate_world():
     world[0][2].remove_path_to(world[0][1])
     world[0][1].remove_path_to(world[0][2])
 
-    player_sprite = sprites.Player(200,200)
+    player_sprite = sprites.Player(200, 200)
     for row in world:
         for room in row:
             room.add_sprite(player_sprite)

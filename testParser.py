@@ -24,6 +24,9 @@ def player_move(_player_state, direction):
 
     _player_state.room = _player_state.room.take_path(direction)
 
+    if _player_state.get_room() == (0, 1):
+        _player_state.room.add_sprite(sprites.OldMan())
+
     if _player_state.room.name == current_room.name:
         if _player_state.get_room() == (0, 1) and direction == "house":
             text = "You can't enter someone else's house!"
@@ -43,12 +46,26 @@ def player_move(_player_state, direction):
 
 def player_talk(_player_state, target):
     if _player_state.get_room() == (0, 1):
-        if _player_state.killedGoblin:
-            return "\"Awesome work! the magic word is \'" + MAGIC_SPELL + "\'!\""
+        if target == "old man":
+            if _player_state.killedGoblin:
+                return "\"Awesome work! the magic word is \'" + MAGIC_SPELL + "\'!\""
+            else:
+                return "\"I'll teach magic to those with the blood of a goblin.\""
         else:
-            return "\"I'll teach magic to those with the blood of a goblin.\""
+            return "You can't talk to that"
     if _player_state.get_room() == (1, 2):
-        return "The bunny can't talk. It is very cute though."
+        if target == "bunny":
+            return "The bunny can't talk. It is very cute though."
+        else:
+            return "You can't talk to that"
+
+    if _player_state.get_room() == (1, 0):
+        if target == "demon":
+            return "\"FOOLISH MORTAL. I WILL DESTROY YOUR WORLD. ONLY THE STRONGEST WEAPONS IN THE LAND CAN DEFEAT ME!\""
+        else:
+            return "You can't talk to that"
+
+
     else:
         return "There is no one to talk to here."
 

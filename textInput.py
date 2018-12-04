@@ -229,7 +229,8 @@ class TextInput:
         # Gets the lines of text from get_lines
         lines = self.get_lines(text, [], 26)
         # If the size of the array of lines is already even, it is returned
-        if len(lines) % 2 == 0:
+        lines = [x for x in lines if not x.isspace()]
+        if len(lines) >= 2:
             return lines
         # Otherwise, an empty line is appended and the lines are returned
         else:
