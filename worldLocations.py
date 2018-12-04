@@ -6,9 +6,9 @@ import playerState
 
 def generate_world():
     world_gen_matrix = [
-        [['Place 1', 'The first place'], ['Place 2', 'The second place'], ['Place 3', 'The third place']],
-        [['Place 4', 'The fourth place'], ['Place 5', 'The fifth place'], ['Place 6', 'The sixth place']],
-        [['Place 7', 'The seventh place'], ['Place 8', 'The eighth place'], ['Place 9', 'The ninth place']],
+        [['the Cliffs', 'Above you, a sword lies on top of a cliff. It seems like it would fall if you shot it somehow. To the south is the Cabin.'], ['the Castle', 'Before you stands a demon, usin\' some dark magics on the kingdom. You must stop him!'], ['the River', 'Across the river lies a powerful shield. The river is running too fast to cross.']],
+        [['the Lone Cabin', 'The old man in front of you looks magical. Maybe you could talk to him.'], ['the Plains', 'The least interesting spot. The demon lies north of here.'], ['the Path', 'You stand at a crossroads. To the north is the river; to the south is the forest.']],
+        [['the Grove', 'A vicious goblin roams this area. You would need a powerful sword to kill him.'], ['the Forest', 'A very cute bunny is here, his fur is so fluffy you can\'t stand it'], ['the Forest (east)', 'There is a slingshot sitting on the ground before you. You should take it.']],
     ]
 
     world = worldgen_from_matrix(world_gen_matrix)
@@ -18,7 +18,7 @@ def generate_world():
     world[0][2].remove_path_to(world[0][1])
     world[0][1].remove_path_to(world[0][2])
 
-    player_sprite = sprites.Player(200,200)
+    player_sprite = sprites.Player(200, 200)
     for row in world:
         for room in row:
             room.add_sprite(player_sprite)

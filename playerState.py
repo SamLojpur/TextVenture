@@ -11,9 +11,18 @@ class PlayerState:
         self.swordFell = False
         self.hasSword = False
         self.hasShield = False
-        self.gameOver = True
+        self.gameOver = False
         self.killedGoblin = False
+        self.hasVisited = [[False, False, False], [False, False, False], [False, False, False]]
 
     def get_room(self):
         return self.room.x, self.room.y
+
+    def visited_room(self):
+
+        if self.hasVisited[self.room.x][self.room.y]:
+            return True
+        else:
+            self.hasVisited[self.room.x][self.room.y] = True
+            return False
 

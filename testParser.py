@@ -24,25 +24,48 @@ def player_move(_player_state, direction):
 
     _player_state.room = _player_state.room.take_path(direction)
 
+    if _player_state.get_room() == (0, 1):
+        _player_state.room.add_sprite(sprites.OldMan())
+
     if _player_state.room.name == current_room.name:
-        text = "There is no path that way!"
+        if _player_state.get_room() == (0, 1) and direction == "house":
+            text = "You can't enter someone else's house!"
+        else:
+            text = "There is no path that way!"
     elif _player_state.acrossRiver:
         _player_state.room = current_room
         return "You need to find a way across the river first!"
     else:
-        text = "Now entering " + _player_state.room.get_name() +  " " + _player_state.room.get_description()
+        if _player_state.visited_room():
+            text = "Now entering " + _player_state.room.get_name()
+        else:
+            text = "Now entering " + _player_state.room.get_name() +  ": " + _player_state.room.get_description()
 
     return text
 
 
 def player_talk(_player_state, target):
     if _player_state.get_room() == (0, 1):
-        if _player_state.killedGoblin:
-            return "\"Awesome work! the magic word is \'" + MAGIC_SPELL + "\'!\""
+        if target == "old man":
+            if _player_state.killedGoblin:
+                return "\"Awesome work! the magic word is \'" + MAGIC_SPELL + "\'!\""
+            else:
+                return "\"I'll teach magic to those with the blood of a goblin.\""
         else:
-            return "\"I'll teach magic to those with the blood of a goblin.\""
+            return "You can't talk to that"
     if _player_state.get_room() == (1, 2):
-        return "The bunny can't talk. It is very cute though."
+        if target == "bunny":
+            return "The bunny can't talk. It is very cute though."
+        else:
+            return "You can't talk to that"
+
+    if _player_state.get_room() == (1, 0):
+        if target == "demon":
+            return "\"FOOLISH MORTAL. I WILL DESTROY YOUR WORLD. ONLY THE STRONGEST WEAPONS IN THE LAND CAN DEFEAT ME!\""
+        else:
+            return "You can't talk to that"
+
+
     else:
         return "There is no one to talk to here."
 
@@ -50,14 +73,15 @@ def player_talk(_player_state, target):
 def player_get(_player_state, item):
 
     if item == "slingshot":
-        if _player_state.get_room() == (2, 2):
+
+        if _player_state.get_room() == (2, 2) and not _player_state.hasSlingshot:
             _player_state.hasSlingshot = True
             _player_state.room.remove_sprite(sprites.Slingshot())
             return "You took the slingshot! Now you can shoot things!"
         else:
             return "There's no slingshot here. "
-    elif item == "sword" and not _player_state.hasSword:
-        if _player_state.get_room() == (0, 0):
+    elif item == "sword" :
+        if _player_state.get_room() == (0, 0) and not _player_state.hasSword:
             if _player_state.swordFell == True:
                 _player_state.hasSword = True
                 _player_state.room.remove_sprite(sprites.Sword())
@@ -68,8 +92,8 @@ def player_get(_player_state, item):
         else:
             return "There's no sword here."
     elif item == "shield":
-        if _player_state.get_room() == (2, 0):
-            if _player_state.acrossRiver == True:
+        if _player_state.get_room() == (2, 0) and not _player_state.hasShield:
+            if _player_state.acrossRiver :
                 _player_state.room.remove_sprite(sprites.Shield())
                 _player_state.hasShield = True
                 return "Woah! You got an awesome shield!"
@@ -100,7 +124,7 @@ def player_use(_player_state, arg):
         return "that's not a valid item to use"
 
 def player_pet(_player_state, noun):
-    if noun == "bunny":
+    if noun == "bunny" and _player_state.get_room() == (1, 2):
         return "The bunny nuzzles up to you and purrs!"
     else:
         return "You can't pet that!"
@@ -120,11 +144,11 @@ def player_shoot(_player_state, target):
             return "The bunny gets hit and scampers off. You monster."
         elif target == "old man" and _player_state.get_room() == (0, 1):
             _player_state.room.remove_sprite(sprites.OldMan())
-            return "The old man gets hit and scampers off. You monster."
-        elif target == "goblin" and  _player_state.get_room() == (0, 2):
-            return "Your slingshot is not strong enough to kill the goblin."
-        elif target == "emo kid" and  _player_state.get_room() == (1, 0):
-            return "Your slingshot is not strong enough to kill the emo kid."
+            return "The man gets hit and scampers off. You monster."
+        elif target == "shield" and _player_state.get_room() == (2, 0):
+            return "The projectile dings off the shield. It has no effect."
+        elif target == "goblin" and _player_state.get_room() == (0, 2):
+            return "It hits the goblin right in the forehead! Oh no! You only made him angrier!"
         else:
             return "That's not a valid target to shoot"
     else:
@@ -140,23 +164,42 @@ def player_attack(_player_state, target):
             _player_state.room.remove_sprite(sprites.Goblin())
             _player_state.killedGoblin = True
             return "You showed no mercy to the goblin and collected its blood."
-        if target == 'emo kid' and _player_state.get_room() == (1, 0) and _player_state.hasShield:
+        if target == 'demon' and _player_state.get_room() == (1, 0) and _player_state.hasShield:
             _player_state.room.remove_sprite(sprites.Boss())
             gameOver = True
-            return "You have killed the emo kid and saved the kingdom!"
-        elif target == 'emo kid' and _player_state.get_room() == (1, 0) and not(_player_state.hasShield):
+            return "You have killed the boss and saved the kingdom!"
+        elif target == 'demon' and _player_state.get_room() == (1, 0) and not(_player_state.hasShield):
             _player_state.room.remove_sprite(sprites.Player())
             _player_state.gameOver = True
-            return "You were not strong enough to defeat the emo kid. "
+            return "Shoot! You were not strong enough to defeat the boss. Game Over!  ..................."
         else:
             return "You cannot attack that."
     else:
         return "You have nothing to attack with. "
         
-
+def player_look(_player_state, argument):
+    #@todo if you took something dont describe it
+    return _player_state.room.description_text
 
 def player_help(_player_state, argument):
-    return "Here are the words we have so far!: go, talk, cast, use and shoot"
+    if argument == "go":
+        return "You can type 'go west' 'go left' or 'go w'. All of these will move you one screen to the left."
+    if argument == "take":
+        return "You can type 'take slingshot' to take a slingshot from off the ground."
+    if argument == "talk":
+        return "You can type 'talk old man' to speak with an old man."
+    if argument == "shoot":
+        return "You can type 'shoot sword' to shoot at a sword if you have a slingshot."
+    if argument == "attack":
+        return "You can type 'attack goblin' to attack a goblin if you have a sword."
+    if argument == "help":
+        return "You know what help does."
+    else:
+        return "You can use verbs like 'go', 'take', 'talk', and you can eventually unlock 'shoot' and 'attack'. Type 'help verb' for example commands"
+
+
+
+
 
 PARSER_DICT = {
     'help'  : player_help,
@@ -172,6 +215,7 @@ PARSER_DICT = {
     'attack': player_attack,
     'hit'   : player_attack,
     'kill'  : player_attack,
+    'look'  : player_look,
     MAGIC_SPELL: player_cast,
 
 
@@ -182,14 +226,17 @@ def text_parser(input_string, player_state):
     input_string = input_string.lower()
     verb = input_string.split(' ')[0]
     noun = input_string.partition(' ')[2]
-    if verb in PARSER_DICT:
-        output = PARSER_DICT[verb](player_state, noun)
-
+    if player_state.gameOver:
+        return "You can't do that when you're dead!."
     else:
-        output = """Unknown verb. Try 'help'"""
+        if verb in PARSER_DICT:
+            output = PARSER_DICT[verb](player_state, noun)
 
-    player_state.first_command = False
-    gameUpdate.update_main_screen(player_state)
+        else:
+            output = """Unknown verb. Try 'help'"""
+
+        player_state.first_command = False
+        gameUpdate.update_main_screen(player_state)
     return output
 
 
