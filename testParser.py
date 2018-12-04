@@ -154,20 +154,21 @@ def player_attack(_player_state, target):
             _player_state.room.remove_sprite(sprites.Goblin())
             _player_state.killedGoblin = True
             return "You showed no mercy to the goblin and collected its blood."
-        if target == 'boss' and _player_state.get_room() == (1, 0) and _player_state.hasShield:
+        if target == 'demon' and _player_state.get_room() == (1, 0) and _player_state.hasShield:
             _player_state.room.remove_sprite(sprites.Boss())
             gameOver = True
             return "You have killed the boss and saved the kingdom!"
-        elif target == 'boss' and _player_state.get_room() == (1, 0) and not(_player_state.hasShield):
+        elif target == 'demon' and _player_state.get_room() == (1, 0) and not(_player_state.hasShield):
             _player_state.room.remove_sprite(sprites.Player())
             _player_state.gameOver = True
-            return "You were not strong enough to defeat the boss. "
+            return "Shoot! You were not strong enough to defeat the boss. Game Over!  ..................."
         else:
             return "You cannot attack that."
     else:
         return "You have nothing to attack with. "
         
-
+def player_look(_player_state, argument):
+    return _player_state.room.description_text
 
 def player_help(_player_state, argument):
     if argument == "go":
@@ -183,7 +184,10 @@ def player_help(_player_state, argument):
     if argument == "help":
         return "You know what help does."
     else:
-        return "You can use verbs like 'go', 'take', 'talk', and you can eventually unlock 'shoot' and 'attack'. Type help 'verb' for example commands"
+        return "You can use verbs like 'go', 'take', 'talk', and you can eventually unlock 'shoot' and 'attack'. Type 'help verb' for example commands"
+
+
+
 
 
 PARSER_DICT = {
@@ -200,6 +204,7 @@ PARSER_DICT = {
     'attack': player_attack,
     'hit'   : player_attack,
     'kill'  : player_attack,
+    'look'  : player_look,
     MAGIC_SPELL: player_cast,
 
 
@@ -210,14 +215,17 @@ def text_parser(input_string, player_state):
     input_string = input_string.lower()
     verb = input_string.split(' ')[0]
     noun = input_string.partition(' ')[2]
-    if verb in PARSER_DICT:
-        output = PARSER_DICT[verb](player_state, noun)
-
+    if player_state.gameOver:
+        return "You can't do that when you're dead!."
     else:
-        output = """Unknown verb. Try 'help'"""
+        if verb in PARSER_DICT:
+            output = PARSER_DICT[verb](player_state, noun)
 
-    player_state.first_command = False
-    gameUpdate.update_main_screen(player_state)
+        else:
+            output = """Unknown verb. Try 'help'"""
+
+        player_state.first_command = False
+        gameUpdate.update_main_screen(player_state)
     return output
 
 
