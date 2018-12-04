@@ -117,19 +117,33 @@ while running:
                 #pygame.display.update(outputLabel1)
                #pygame.time.delay(2000)
                    
-                i+= 1
+                i += 1
                 if i > 1:
                     while True:
                         e = pygame.event.wait()
                         if e.type == pygame.KEYDOWN:
-                            break            
+                            break
                 pygame.display.update()
+
+            pygame.draw.rect(gameDisplay, (0, 0, 0), [0, 640, 640, 790])
+            if len(output_lines) > 4:
+                print("output text1: " + output_lines[-4])
+                outputLabel1 = labelFont.render(output_lines[-4], False, (255, 255, 255))
+                print("output text2: " + output_lines[-3])
+                outputLabel2 = labelFont.render(output_lines[-3], False, (255, 255, 255))
+
+
+            else:
+                print("output text1: " + output_lines[0])
+                outputLabel1 = labelFont.render(output_lines[0], False, (255, 255, 255))
+                print("output text2: " + output_lines[1])
+                outputLabel2 = labelFont.render(output_lines[1], False, (255, 255, 255))
+
+            gameDisplay.blit(outputLabel1, (0, 690))
+            gameDisplay.blit(outputLabel2, (0, 730))
+            gameDisplay.blit(promptLabel, (0, 650))
+
         gameUpdate.update_main_screen(player_state)
-
-    if player_state.first_command:
-
-        output_text = testParser.text_parser("go s", player_state)
-        pygame.display.update()
 
     sprites = player_state.room.get_sprites()
 

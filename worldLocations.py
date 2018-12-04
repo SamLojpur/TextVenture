@@ -34,7 +34,7 @@ def generate_world():
     world[2][0].add_sprite(sprites.Goblin())
     world[0][1].add_sprite(sprites.Boss())
 
-    my_position = world[0][1]
+    my_position = world[1][1]
 
     player_state = playerState.PlayerState(my_position)
     return player_state

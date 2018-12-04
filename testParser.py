@@ -25,7 +25,10 @@ def player_move(_player_state, direction):
     _player_state.room = _player_state.room.take_path(direction)
 
     if _player_state.room.name == current_room.name:
-        text = "There is no path that way!"
+        if _player_state.get_room() == (0, 1) and direction == "house":
+            text = "You can't enter someone else's house!"
+        else:
+            text = "There is no path that way!"
     elif _player_state.acrossRiver:
         _player_state.room = current_room
         return "You need to find a way across the river first!"
@@ -113,9 +116,13 @@ def player_shoot(_player_state, target):
         elif target == "bunny" and _player_state.get_room() == (1, 2):
             _player_state.room.remove_sprite(sprites.Bunny())
             return "The bunny gets hit and scampers off. You monster."
-        elif target == "wizard" and _player_state.get_room() == (0, 1):
+        elif target == "old man" and _player_state.get_room() == (0, 1):
             _player_state.room.remove_sprite(sprites.OldMan())
             return "The man gets hit and scampers off. You monster."
+        elif target == "shield":
+            return "The projectile dings off the shield. It has no effect."
+        elif target == "goblin":
+            return "It hits the goblin right in the forehead! Oh no! You only made him angrier!"
         else:
             return "That's not a valid target to shoot"
     else:
@@ -146,7 +153,21 @@ def player_attack(_player_state, target):
 
 
 def player_help(_player_state, argument):
-    return "Here are the words we have so far!: go, talk, cast, use and shoot"
+    if argument == "go":
+        return "You can type 'go west' 'go left' or 'go w'. All of these will move you one screen to the left."
+    if argument == "take":
+        return "You can type 'take slingshot' to take a slingshot from off the ground."
+    if argument == "talk":
+        return "You can type 'talk old man' to speak with an old man."
+    if argument == "shoot":
+        return "You can type 'shoot sword' to shoot at a sword if you have a slingshot."
+    if argument == "attack":
+        return "You can type 'attack goblin' to attack a goblin if you have a sword."
+    if argument == "help":
+        return "You know what help does."
+    else:
+        return "You can use verbs like 'go', 'take', 'talk', and you can eventually unlock 'shoot' and 'attack'. Type help 'verb' for example commands"
+
 
 PARSER_DICT = {
     'help'  : player_help,
