@@ -7,7 +7,7 @@ import playerState
 def generate_world():
     world_gen_matrix = [
         [['the Cliffs', 'Above you, a sword lies on top of a cliff. It seems like it would fall if you shot it somehow. To the south is the Cabin.'], ['the Castle', 'Before you stands a demon, usin\' some dark magics on the kingdom. You must stop him!'], ['the River', 'Across the river lies a powerful shield. The river is running too fast to cross.']],
-        [['the Lone Cabin', 'The old man in front of you looks magical. Maybe you could talk to him.'], ['the Plains', 'The fifth place'], ['the Path', 'You stand at a crossroads. To the north is the river; to the south is the forest.']],
+        [['the Lone Cabin', 'The old man in front of you looks magical. Maybe you could talk to him.'], ['the Plains', 'The least interesting spot. The demon lies north of here.'], ['the Path', 'You stand at a crossroads. To the north is the river; to the south is the forest.']],
         [['the Grove', 'A vicious goblin roams this area. You would need a powerful sword to kill him.'], ['the Forest', 'A very cute bunny is here, his fur is so fluffy you can\'t stand it'], ['the Forest (east)', 'There is a slingshot sitting on the ground before you. You should take it.']],
     ]
 

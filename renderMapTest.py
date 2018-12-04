@@ -47,7 +47,10 @@ def main():
 
     running = True
 
+
+    outputLabel1, outputLabel2, promptLabel = print_text('(Press any key to scroll) Welcome to TextVenture! Collect all the items and fight the evil demon in the north to win! To begin you can type \'go east\'', textinput, player_state)
     gameUpdate.update_main_screen(player_state)
+
     while running:
         # @todo move stuff to separate function for textbox
         # @todo make textbox multiline
@@ -92,18 +95,12 @@ def main():
             outputLabel1, outputLabel2, promptLabel = print_text(output_text, textinput, player_state)
 
         sprites = player_state.room.get_sprites()
-
         sprites.update()
         sprites.draw(gameDisplay)
-
         pygame.display.update()
 
         if player_state.gameOver:
             main()
-
-        # if player_state.room.get_text() != "":
-        # print(player_state.room.get_text())
-        #gameDisplay.blit(commandLabel, (0, 750))
 
     pygame.display.quit()
     pygame.quit()
