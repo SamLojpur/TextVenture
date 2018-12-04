@@ -109,12 +109,19 @@ def player_get(_player_state, item):
 
 
 def player_use(_player_state, arg):
-    # 'use slingshot' causes bug
-    x, y = arg.split(' on ')
-    if x == "slingshot":
-        player_shoot(_player_state, y)
-
-    return "that's not a valid item to use"
+    # 'use slingshot' causes bug\
+    #print("ARG", arg)
+    if ' on ' in arg:
+        #print("ARG", arg)
+        x, y = arg.split(' on ')
+        if x == "slingshot":
+            print("Slingshot")
+            text = player_shoot(_player_state, y)
+            return text
+    elif arg == 'slingshot':
+        return "You need a target to shoot!"
+    else:
+        return "that's not a valid item to use"
 
 def player_pet(_player_state, noun):
     if noun == "bunny" and _player_state.get_room() == (1, 2):
@@ -125,6 +132,7 @@ def player_pet(_player_state, noun):
 
 
 def player_shoot(_player_state, target):
+    print("PLAYER SHOOT")
     if _player_state.hasSlingshot:
         if target == "sword" and _player_state.get_room() == (0, 0):
             _player_state.swordFell = True
@@ -144,6 +152,7 @@ def player_shoot(_player_state, target):
         else:
             return "That's not a valid target to shoot"
     else:
+        print("NOTHING TO SHOOT")
         return "You have nothing to shoot with"
     pass
 # add boss

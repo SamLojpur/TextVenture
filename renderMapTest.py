@@ -11,7 +11,6 @@ def main():
     IMG_SIZE = 1920
     WIDTH = 640
 
-
     # pygame.init()
     clock = pygame.time.Clock()
 
@@ -21,6 +20,9 @@ def main():
     my_image = pygame.image.load("images/map.PNG").convert()
     gameDisplay.set_alpha(255)
 
+
+     #player_state = worldLocations.generate_world()
+     #player_state.gameDisplay = gameDisplay
 
     surf = pygame.Surface([IMG_SIZE, IMG_SIZE])
 
@@ -32,13 +34,13 @@ def main():
     outputLabel1 = labelFont.render('', False, (255, 255, 255))
     outputLabel2 = labelFont.render('', False, (255, 255, 255))
 
-
     """
     x = textinput.print_lines("The bunny can't talk. It is very cute though. I need to fill another line")
     if x != None:
         for i in range(0, len(x)):
             print(x[i])
             """
+
 
     player_state = worldLocations.generate_world()
     player_state.gameDisplay = gameDisplay
@@ -166,3 +168,4 @@ def print_text(output_text, textinput, player_state):
 
 if __name__ == "__main__":
     main()
+
