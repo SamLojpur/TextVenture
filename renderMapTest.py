@@ -4,6 +4,11 @@ import testParser
 import textInput
 import playerState
 import gameUpdate
+from sys import exit
+
+"""
+    Description: Main function that runs the game loop
+"""
 
 def main():
 
@@ -11,96 +16,82 @@ def main():
     IMG_SIZE = 1920
     WIDTH = 640
 
-    # pygame.init()
+    # Initializes the game clock
     clock = pygame.time.Clock()
-
+    
+    # Sets the width, height, image and caption for the game window
     gameDisplay = pygame.display.set_mode((WIDTH, HEIGHT))
-    pygame.display.set_caption('World')
+    pygame.display.set_caption('TextVenture')
+    my_image = pygame.image.load("images/map.PNG")
 
-    my_image = pygame.image.load("images/map.PNG").convert()
-    gameDisplay.set_alpha(255)
-
-
-     #player_state = worldLocations.generate_world()
-     #player_state.gameDisplay = gameDisplay
-
+    # Renders the main game surface
     surf = pygame.Surface([IMG_SIZE, IMG_SIZE])
-
-    textinput = textInput.TextInput("", "pixelFont.ttf", 35, True, (255, 255, 255), 1000, 1000)
-
+    
+    # Initializes textInput to handle input text
+    textinput = textInput.TextInput("", "pixelFont.ttf", 35, True,
+                                    (255, 255, 255), 1000, 1000)
+    
+    # Initializes the font for all labels and sets up the labels
     pygame.font.init()
     labelFont = pygame.font.Font("pixelFont.ttf", 35)
-    # promptLabel = labelFont.render(testParser.get_prompt_label(player_state), False, (255, 255, 255))
     outputLabel1 = labelFont.render('', False, (255, 255, 255))
     outputLabel2 = labelFont.render('', False, (255, 255, 255))
-
-    """
-    x = textinput.print_lines("The bunny can't talk. It is very cute though. I need to fill another line")
-    if x != None:
-        for i in range(0, len(x)):
-            print(x[i])
-            """
-
-
+    
+    # Generates the game world and adds all sprites
     player_state = worldLocations.generate_world()
     player_state.gameDisplay = gameDisplay
 
     running = True
 
-
+    # Displays a mini tutorial before beginning the game
     outputLabel1, outputLabel2, promptLabel = print_text('(Press any key to scroll) Welcome to TextVenture! Collect all the items and fight the evil demon in the north to win! To begin you can type \'go east\'', textinput, player_state)
     gameUpdate.update_main_screen(player_state)
 
+    # Game loop
     while running:
-
-        #update_screen(player_state)
-
-        #x = player_state.room.x
-        #y = player_state.room.y
-
-        #gameDisplay.fill((0, 0, 0))
-        #gameDisplay.blit(my_image, [0, 0], [640*x, 640*y, 640, 640])
-
-
+        # Updates the command prompt label
         promptLabel = labelFont.render(testParser.get_prompt_label(player_state), False, (255, 255, 255))
-
+        
+        # Updates the textbox labels
         pygame.draw.rect(gameDisplay, (0, 0, 0), [0, 640, 640, 790])
-
         gameDisplay.blit(promptLabel, (0, 650))
         gameDisplay.blit(outputLabel1, (0, 690))
         gameDisplay.blit(outputLabel2, (0, 730))
-
-        # Small bug here, after entering first command, input flashes before disappearing
+        # Updates the screen as the user types
         gameDisplay.blit(textinput.get_surface(), (len(testParser.get_prompt_label(player_state)) * 21, 650))
 
-
-        # Process exit event
+        # Closes the window if the user presses the exit button
         events = pygame.event.get()
-        for event in pygame.event.get():
-            # check for closing window
+        for event in events:
             if event.type == pygame.QUIT:
                 running = False
 
-
-
-
         input_text = " "
         # output_text = " "
+        
+        # Handles text input after enter is pressed
         if textinput.update(events):
+            # Retrieves the text entered
             input_text = textinput.get_text()
+            # Clears input line after pressing enter
             textinput.clear_text()
+            # Runs the input text through the text parser and retrieves the output text
             output_text = testParser.text_parser(input_text, player_state)
-
+            # Updates the strings to be displayed in the text
             outputLabel1, outputLabel2, promptLabel = print_text(output_text, textinput, player_state)
 
+        # Updates all of the sprites and visuals on screen
         sprites = player_state.room.get_sprites()
         sprites.update()
         sprites.draw(gameDisplay)
         pygame.display.update()
 
+        # Exits the window if the player dies
         if player_state.gameOver:
-            main()
-
+            pygame.time.delay(1000)
+            running = False
+            
+    # Quits pygame after program completion
     pygame.display.quit()
     pygame.quit()
 

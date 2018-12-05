@@ -206,7 +206,7 @@ class TextInput:
                 remainingWords += " "
             # Continues shrinknig remaining lines until the last line already
             # has length <= length
-            self.get_lines(remainingWords, lines, 26)
+            self.get_lines(remainingWords, lines, length)
         # When the last line has length <= length, the last line is appended
         # and the lines are returned
         else:
@@ -227,7 +227,7 @@ class TextInput:
     """
     def print_lines(self, text):
         # Gets the lines of text from get_lines
-        lines = self.get_lines(text, [], 26)
+        lines = self.get_lines(text, [], 25)
         # If the size of the array of lines is already even, it is returned
         lines = [x for x in lines if not x.isspace()]
         if len(lines) >= 2:
