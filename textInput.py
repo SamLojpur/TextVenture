@@ -5,7 +5,7 @@ Borrowed from https://github.com/Nearoo/pygame-text-input
 By Silas Gyger, silasgyger@gmail.com
 
 
-Modified and commented by Kate Vlaar
+Modified and commented by us
 Remaining functions are original
 
 """
@@ -129,21 +129,6 @@ class TextInput:
                 if event.key in self.keyrepeat_counters:
                     del self.keyrepeat_counters[event.key]
 
-
-
-        # Update key counters:
-        # for key in self.keyrepeat_counters:
-        #     self.keyrepeat_counters[key][0] += self.clock.get_time()
-        #
-        #     # Generate new key events if enough time has passed:
-        #     if self.keyrepeat_counters[key][0] >= self.keyrepeat_intial_interval_ms:
-        #         self.keyrepeat_counters[key][0] = (
-        #             self.keyrepeat_intial_interval_ms
-        #             - self.keyrepeat_interval_ms
-        #         )
-        #
-        #         event_key, event_unicode = key, self.keyrepeat_counters[key][1]
-        #         pygame.event.post(pygame.event.Event(pl.KEYDOWN, key=event_key, unicode=event_unicode))
 
         # Re-render text surface:
         self.surface = self.font_object.render(self.input_string, self.antialias, self.text_color)

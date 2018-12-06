@@ -101,10 +101,8 @@ class Room:
 
     def take_path(self, direction):
         if direction in self.paths:
-            print("Now entering " + self.paths[direction].name + self.paths[direction].description_text)
             return self.paths[direction]
         else:
-            print("There is no path that way!")
             return self
         
     def get_name(self):

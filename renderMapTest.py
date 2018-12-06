@@ -82,10 +82,12 @@ def main():
             input_text = text_input.get_text()
             # Clears input line after pressing enter
             text_input.clear_text()
-            # Runs the input text through the text parser and retrieves the output text
-            output_text = testParser.text_parser(input_text, player_state)
-            # Updates the strings to be displayed in the text
-            output_label1, output_label2, promptLabel = print_text(output_text, text_input, player_state)
+            # If the command is not empty
+            if input_text != "":
+                # Runs the input text through the text parser and retrieves the output text
+                output_text = testParser.text_parser(input_text, player_state)
+                # Updates the strings to be displayed in the text
+                output_label1, output_label2, promptLabel = print_text(output_text, text_input, player_state)
 
         # Updates all of the sprites and visuals on screen
         sprites = player_state.room.get_sprites()
