@@ -3,7 +3,7 @@
     allowing us to track the user's progress in the game
 
     Arguments:
-        room: Describes the room that the player is in
+        room: Describes the room that the player starts in
 
     Returns:
         None
