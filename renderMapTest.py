@@ -80,10 +80,9 @@ def main():
         if text_input.update(events):
             # Retrieves the text entered
             input_text = text_input.get_text()
-            # Clears input line after pressing enter
-            text_input.clear_text()
-            # If the command is not empty
-            if input_text != "":
+            if not input_text == "":
+                # Clears input line after pressing enter
+                text_input.clear_text()
                 # Runs the input text through the text parser and retrieves the output text
                 output_text = testParser.text_parser(input_text, player_state)
                 # Updates the strings to be displayed in the text
