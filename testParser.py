@@ -281,7 +281,6 @@ def player_attack(_player_state, target):
         # defeats the demon and the game is over
         if target == 'demon' and _player_state.get_room() == (1, 0) and _player_state.hasShield:
             _player_state.room.remove_sprite(sprites.Boss())
-            gameOver = True
             return "You have killed the boss and saved the kingdom!"
         # If the target is the demon and the player has not obtained the shield,
         # it is defeated by the demon and the game is over        
