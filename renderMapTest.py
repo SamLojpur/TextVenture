@@ -7,7 +7,14 @@ import gameUpdate
 from sys import exit
 
 """
-    Description: Main function that runs the game loop
+    Description: Main function that runs the game loop. Handles updating text
+    labels and other visuals
+
+    Arguments:
+        None
+        
+    Returns:
+        None
 """
 
 def main():
@@ -28,14 +35,14 @@ def main():
     surf = pygame.Surface([IMG_SIZE, IMG_SIZE])
     
     # Initializes textInput to handle input text
-    textinput = textInput.TextInput("", "pixelFont.ttf", 35, True,
+    text_input = textInput.TextInput("", "pixelFont.ttf", 35, True,
                                     (255, 255, 255), 1000, 1000)
     
     # Initializes the font for all labels and sets up the labels
     pygame.font.init()
     labelFont = pygame.font.Font("pixelFont.ttf", 35)
-    outputLabel1 = labelFont.render('', False, (255, 255, 255))
-    outputLabel2 = labelFont.render('', False, (255, 255, 255))
+    output_label1 = labelFont.render('', False, (255, 255, 255))
+    output_label2 = labelFont.render('', False, (255, 255, 255))
     
     # Generates the game world and adds all sprites
     player_state = worldLocations.generate_world()
@@ -44,7 +51,7 @@ def main():
     running = True
 
     # Displays a mini tutorial before beginning the game
-    outputLabel1, outputLabel2, promptLabel = print_text('(Press any key to scroll) Welcome to TextVenture! Collect all the items and fight the evil demon in the north to win! To begin you can type \'go east\'', textinput, player_state)
+    output_label1, output_label2, promptLabel = print_text('(Press any key to scroll) Welcome to TextVenture! Collect all the items and fight the evil demon in the north to win! To begin you can type \'go east\'', text_input, player_state)
     gameUpdate.update_main_screen(player_state)
 
     # Game loop
@@ -55,10 +62,10 @@ def main():
         # Updates the textbox labels
         pygame.draw.rect(gameDisplay, (0, 0, 0), [0, 640, 640, 790])
         gameDisplay.blit(promptLabel, (0, 650))
-        gameDisplay.blit(outputLabel1, (0, 690))
-        gameDisplay.blit(outputLabel2, (0, 730))
+        gameDisplay.blit(output_label1, (0, 690))
+        gameDisplay.blit(output_label2, (0, 730))
         # Updates the screen as the user types
-        gameDisplay.blit(textinput.get_surface(), (len(testParser.get_prompt_label(player_state)) * 21, 650))
+        gameDisplay.blit(text_input.get_surface(), (len(testParser.get_prompt_label(player_state)) * 21, 650))
 
         # Closes the window if the user presses the exit button
         events = pygame.event.get()
@@ -70,15 +77,15 @@ def main():
         # output_text = " "
         
         # Handles text input after enter is pressed
-        if textinput.update(events):
+        if text_input.update(events):
             # Retrieves the text entered
-            input_text = textinput.get_text()
+            input_text = text_input.get_text()
             # Clears input line after pressing enter
-            textinput.clear_text()
+            text_input.clear_text()
             # Runs the input text through the text parser and retrieves the output text
             output_text = testParser.text_parser(input_text, player_state)
             # Updates the strings to be displayed in the text
-            outputLabel1, outputLabel2, promptLabel = print_text(output_text, textinput, player_state)
+            output_label1, output_label2, promptLabel = print_text(output_text, text_input, player_state)
 
         # Updates all of the sprites and visuals on screen
         sprites = player_state.room.get_sprites()
@@ -96,67 +103,86 @@ def main():
     pygame.quit()
 
 
-def print_text(output_text, textinput, player_state):
+"""
+    Description: Prints text to the text box
+    
+    Arguments:
+        output_text: The text to be outputted on the display lines
+        text_input: The text that the user types
+        player_state: The current state of the player
+        
+    Returns:
+        output_label1: The first display label with the newly updated text
+        output_label2: The second display label with newly update text
+        promptLabel: The prompt text
+"""
+def print_text(output_text, text_input, player_state):
     labelFont = pygame.font.Font("pixelFont.ttf", 35)
     gameDisplay = player_state.gameDisplay
 
-    output_lines = textinput.print_lines(output_text)
-    print("output text: " + output_text)
-
+    # Converts the text to be output into lines of a maximum width
+    output_lines = text_input.print_lines(output_text)
+    
+    # Retreives the text for the prompt label
     promptLabel = labelFont.render(testParser.get_prompt_label(player_state), False, (255, 255, 255))
-    outputLabel1 = ''
-    outputLabel2 = ''
-
+    output_label1 = ''
+    output_label2 = ''
+    
+    # Only updates the text if there is text to be updated
     if output_lines != None:
         i = 0
-        # f = True
+        # Updates the lines of text, two at a time and waits for the user to
+        # press a key before displaying the next lines
         while i < len(output_lines) - 1:
+            # Draws a rectangle over the display text
             pygame.draw.rect(gameDisplay, (0, 0, 0), [0, 640, 640, 790])
-            print("output text1: " + output_lines[i])
-            outputLabel1 = labelFont.render(output_lines[i], False, (255, 255, 255))
-            print("output text2: " + output_lines[i + 1])
-            outputLabel2 = labelFont.render(output_lines[i + 1], False, (255, 255, 255))
-
-            gameDisplay.blit(outputLabel1, (0, 690))
-            gameDisplay.blit(outputLabel2, (0, 730))
+            # Updates and displays the two lines of display text
+            output_label1 = labelFont.render(output_lines[i], False, (255, 255, 255))
+            output_label2 = labelFont.render(output_lines[i + 1], False, (255, 255, 255))
+            gameDisplay.blit(output_label1, (0, 690))
+            gameDisplay.blit(output_label2, (0, 730))
             gameDisplay.blit(promptLabel, (0, 650))
+            
+            # Keeps the sprites visible while waiting for a key press
             sprites = player_state.room.get_sprites()
             sprites.update()
             sprites.draw(gameDisplay)
 
-            # pygame.display.update(outputLabel1)
-            # pygame.time.delay(2000)
-
             i += 1
+            # If there are more than two lines of display text, wait for the
+            # user to press a key before displaying additional lines
             if i > 1:
                 while True:
+                    # Waits for the user to press a key
                     e = pygame.event.wait()
                     if e.type == pygame.KEYDOWN:
                         break
+            # Updates the screen
             pygame.display.update()
 
         pygame.draw.rect(gameDisplay, (0, 0, 0), [0, 640, 640, 790])
+        
+        # Ensures that the text remains visible by continually displaying the
+        # last two lines of text that showed on screen until there is a new
+        # update
         if len(output_lines) > 2:
-            print("output text1: " + output_lines[-2])
-            outputLabel1 = labelFont.render(output_lines[-2], False, (255, 255, 255))
-            print("output text2: " + output_lines[-1])
-            outputLabel2 = labelFont.render(output_lines[-1], False, (255, 255, 255))
+            output_label1 = labelFont.render(output_lines[-2], False, (255, 255, 255))
+            output_label2 = labelFont.render(output_lines[-1], False, (255, 255, 255))
 
         else:
-            print("output text1: " + output_lines[0])
-            outputLabel1 = labelFont.render(output_lines[0], False, (255, 255, 255))
-            print("output text2: " + output_lines[1])
-            outputLabel2 = labelFont.render(output_lines[1], False, (255, 255, 255))
+            output_label1 = labelFont.render(output_lines[0], False, (255, 255, 255))
+            output_label2 = labelFont.render(output_lines[1], False, (255, 255, 255))
 
-        gameDisplay.blit(outputLabel1, (0, 690))
-        gameDisplay.blit(outputLabel2, (0, 730))
+        gameDisplay.blit(output_label1, (0, 690))
+        gameDisplay.blit(output_label2, (0, 730))
         gameDisplay.blit(promptLabel, (0, 650))
 
     gameUpdate.update_main_screen(player_state)
-    return outputLabel1, outputLabel2, promptLabel
+    # Returns the text being displayed
+    return output_label1, output_label2, promptLabel
 
 
-
+# Runs main
 if __name__ == "__main__":
     main()
 

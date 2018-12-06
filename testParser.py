@@ -4,37 +4,65 @@ import sprites
 MAGIC_SPELL = "finances"
 
 
+"""
+    Description: Handles the event when the player uses the magic spell
+    
+    Arguments:
+        player_cast(_player_state): The current state of the player
+        _: A place holder
+    
+    Returns:
+        Lets the player jump over the river if in the appropriate room and
+        informs the user that they have the ability to jump if not in the
+        appropriate room
+"""
 def player_cast(_player_state, _):
+    # Crosses the player over the river if in the correct room
     if _player_state.get_room() == (2, 0):
+        # After the player crosses the river, their position is updated
         _player_state.acrossRiver = not _player_state.acrossRiver
         _player_state.room.remove_sprite(sprites.Player())
+        # Moves the sprite of the player depending on which side of the river
+        # they are on
         if _player_state.acrossRiver:
             _player_state.room.add_sprite(sprites.Player(200, 5))
         else:
             _player_state.room.add_sprite(sprites.Player(200, 400))
-
+        # Returns text explaining that the character has crossed the river
         return "The magic of " + MAGIC_SPELL + " let you jump over the river!"
+    # If user is not in the room with the river
     else:
+        # Informs the user that they gained the ability to jump
         return "The magic of " + MAGIC_SPELL + " let you jump!"
 
 
+"""
+    Description:
+"""
 def player_move(_player_state, direction):
-
+    # Retrieves the current room of the player
     current_room = _player_state.room
-
     _player_state.room = _player_state.room.take_path(direction)
 
+    # Re-adds the oldman sprite if he was previously attacked
     if _player_state.get_room() == (0, 1):
         _player_state.room.add_sprite(sprites.OldMan())
 
+    # Checks if the entered direction leads to a valid path
     if _player_state.room.name == current_room.name:
+        # If the user tries to enter the house in the room with the old man
         if _player_state.get_room() == (0, 1) and direction == "house":
             text = "You can't enter someone else's house!"
+        # If the user enters an invalid path
         else:
             text = "There is no path that way!"
+    # If the user is across the river they must cross back before leaving the
+    # room
     elif _player_state.acrossRiver:
         _player_state.room = current_room
         return "You need to find a way across the river first!"
+    # Only displays the description text for rooms that have not yet been
+    # explored
     else:
         if _player_state.visited_room():
             text = "Now entering " + _player_state.room.get_name()
@@ -44,6 +72,12 @@ def player_move(_player_state, direction):
     return text
 
 
+"""
+    Allows the player to talk to characters in the game
+
+    Arguments:
+    
+"""
 def player_talk(_player_state, target):
     if _player_state.get_room() == (0, 1):
         if target == "old man":
