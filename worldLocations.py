@@ -163,15 +163,11 @@ class Room:
     def take_path(self, direction):
         # if the path had an entry for direction
         if direction in self.paths:
-<<<<<<< HEAD
-            return self.paths[direction]
-        else:
-=======
+
             # then take that path and return the destination
             return self.paths[direction]
         else:
             # otherwise return this room
->>>>>>> 9c0d4c876e59ac73bdd6e9a7ab8930d458a0223e
             return self
 
     def get_name(self):
