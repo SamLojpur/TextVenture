@@ -11,7 +11,7 @@ Remaining functions are original
 """
 
 import pygame
-import testParser
+import textParser
 import pygame.locals as pl
 import gameUpdate
 

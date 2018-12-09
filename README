@@ -1,0 +1,60 @@
+/*
+**********************************************************
+    Name: Sam Lojpur and Kate Vlaar
+    ID: 1536933 and 1530551
+    Partner: Kate Vlaar and Sam Lojpur
+    CMPUT 274, Fall  2018
+
+    Final Project: TextVenture
+**********************************************************
+*/
+
+Included Files:
+    * images (folder)
+    * arcadeClassic.ttf
+    * pixelFont.ttf
+    * gameUpdate.py
+    * playerState.py
+    * renderMapTest.py
+    * sprites.py
+    * testParser.py
+    * textInput.py
+    * README
+
+1. Running this code:
+    To run this code after extracting it to a directory, run
+    'python 3 renderMapTest' from the directory. The game should load!
+
+2. Assumptions
+    When running this game ensure you have pygame installed, and
+    that your python version is 3.7 or greater.
+
+3. Info
+    This program is a game intended to be played like zork or other
+    text based adventure games.
+    If you're having difficulty beating the game, this sequence should
+    let you beat the game:
+    go e
+    go s
+    take slingshot
+    go n
+    go w
+    go w
+    go n
+    shoot sword
+    take sword
+    go s
+    go s
+    kill goblin
+    go n
+    talk old man
+    go e
+    go e
+    go n
+    finances
+    take shield
+    finances
+    go s
+    go w
+    go n
+    kill demon

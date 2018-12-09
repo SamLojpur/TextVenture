@@ -1,6 +1,6 @@
 import pygame
 import worldLocations
-import testParser
+import textParser
 import textInput
 import playerState
 import gameUpdate
@@ -57,7 +57,7 @@ def main():
     # Game loop
     while running:
         # Updates the command prompt label
-        promptLabel = labelFont.render(testParser.get_prompt_label(player_state), False, (255, 255, 255))
+        promptLabel = labelFont.render(textParser.get_prompt_label(player_state), False, (255, 255, 255))
         
         # Updates the textbox labels
         pygame.draw.rect(gameDisplay, (0, 0, 0), [0, 640, 640, 790])
@@ -65,7 +65,7 @@ def main():
         gameDisplay.blit(output_label1, (0, 690))
         gameDisplay.blit(output_label2, (0, 730))
         # Updates the screen as the user types
-        gameDisplay.blit(text_input.get_surface(), (len(testParser.get_prompt_label(player_state)) * 21, 650))
+        gameDisplay.blit(text_input.get_surface(), (len(textParser.get_prompt_label(player_state)) * 21, 650))
 
         # Closes the window if the user presses the exit button
         events = pygame.event.get()
@@ -84,7 +84,7 @@ def main():
                 # Clears input line after pressing enter
                 text_input.clear_text()
                 # Runs the input text through the text parser and retrieves the output text
-                output_text = testParser.text_parser(input_text, player_state)
+                output_text = textParser.text_parser(input_text, player_state)
                 # Updates the strings to be displayed in the text
                 output_label1, output_label2, promptLabel = print_text(output_text, text_input, player_state)
 
@@ -125,7 +125,7 @@ def print_text(output_text, text_input, player_state):
     output_lines = text_input.print_lines(output_text)
     
     # Retreives the text for the prompt label
-    promptLabel = labelFont.render(testParser.get_prompt_label(player_state), False, (255, 255, 255))
+    promptLabel = labelFont.render(textParser.get_prompt_label(player_state), False, (255, 255, 255))
     output_label1 = ''
     output_label2 = ''
     

@@ -161,7 +161,6 @@ def player_get(_player_state, item):
                 return "Woah! You got an awesome shield!"
             # If the player hasn't crossed the river, they can't take the shield
             else:
-                _player_state.acrossRiver = True
                 return "You need to find a way across the river first!"
         # If the user tries to take a shield from an invalid room
         else:
