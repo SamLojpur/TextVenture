@@ -15,7 +15,7 @@ Included Files:
     * pixelFont.ttf
     * gameUpdate.py
     * playerState.py
-    * renderMapTest.py
+    * main.py
     * sprites.py
     * testParser.py
     * textInput.py
@@ -23,7 +23,7 @@ Included Files:
 
 1. Running this code:
     To run this code after extracting it to a directory, run
-    'python 3 renderMapTest' from the directory. The game should load!
+    'python 3 main.py' from the directory. The game should load!
 
 2. Assumptions
     When running this game ensure you have pygame installed, and
