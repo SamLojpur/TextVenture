@@ -1,10 +1,6 @@
 /*
 **********************************************************
     Name: Sam Lojpur and Kate Vlaar
-    ID: 1536933 and 1530551
-    Partner: Kate Vlaar and Sam Lojpur
-    CMPUT 274, Fall  2018
-
     Final Project: TextVenture
 **********************************************************
 */
