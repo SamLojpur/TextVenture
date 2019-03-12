@@ -1,0 +1,22 @@
+https://www.geeksforgeeks.org/add-graphics-h-c-library-gcc-compiler-linux/
+
+
+You can download it from here libgraph
+Step by Step Instructions:
+STEP 1: First install build-essential by typing 
+sudo apt-get install build-essential
+STEP 2: Install some additional packages by typing 
+sudo apt-get install libsdl-image1.2 libsdl-image1.2-dev guile-1.8 \
+guile-1.8-dev libsdl1.2debian libart-2.0-dev libaudiofile-dev \
+libesd0-dev libdirectfb-dev libdirectfb-extra libfreetype6-dev \
+libxext-dev x11proto-xext-dev libfreetype6 libaa1 libaa1-dev \
+libslang2-dev libasound2 libasound2-dev
+STEP 3: Now extract the downloaded libgraph-1.0.2.tar.gz file.
+STEP 4: Goto extracted folder and run following command 
+./configure
+make
+sudo make install
+sudo cp /usr/local/lib/libgraph.* /usr/lib
+Now you can use graphics.h lib using following lines:
+int gd = DETECT,gm; 
+initgraph (& gd,& gm,NULL);
